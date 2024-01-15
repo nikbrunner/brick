@@ -14,11 +14,13 @@ TBD
 
 ### 0.5
 
-- [ ] Base version with default config
+- [ ] feat: User config in repo root and home dir
+- [ ] feat: Verify that commands are installed
+- [ ] feat: mark breaking change
+- [ ] feat: issue & ticket number
 
 ### 1.0
 
-- [ ] Enable user config in repo root and home dir
 - [ ] `config`: `inferIssueFromBranch`
 - [ ] `config`: `type` / `scope`
 - [ ] `config`: `detectPullRequest` (Check `gh auth status`)
