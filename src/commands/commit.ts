@@ -2,7 +2,7 @@ import { Command } from "@cliffy/command";
 import * as colors from "@std/fmt/colors";
 import { loadConfig } from "../config/loader.ts";
 import type { MergedConfig } from "../config/schema.ts";
-import { getCommitHistory, getCurrentBranch, getStagedDiff } from "../git/diff.ts";
+import { getCommitHistory, getCurrentBranch, getStagedDiff, isGitRepo } from "../git/diff.ts";
 import { commit, forcePush, push } from "../git/operations.ts";
 import { generate } from "../ai/client.ts";
 import { buildCommitPrompt } from "../ai/prompts.ts";
@@ -110,6 +110,11 @@ export const commitCommand = new Command()
     .option("-p, --push", "Push after commit")
     .option("-f, --force", "Force push with --force-with-lease")
     .action(async (options) => {
+        if (!await isGitRepo()) {
+            console.error(colors.red("Error: Not in a git repository"));
+            Deno.exit(1);
+        }
+
         if (!options.smart) {
             try {
                 await openLazygit();
