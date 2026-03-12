@@ -1,0 +1,34 @@
+import { Command } from "@cliffy/command";
+import * as colors from "@std/fmt/colors";
+import { isGitRepo } from "../git/diff.ts";
+
+const REPO_CONFIG_NAME = ".brick.yml";
+const SCHEMA_PATH = `${Deno.env.get("HOME")}/.config/brick/schema.json`;
+
+export const initCommand = new Command()
+    .description("Create repo-local .brick.yml config")
+    .action(async () => {
+        if (!await isGitRepo()) {
+            console.error(colors.red("Error: Not in a git repository"));
+            Deno.exit(1);
+        }
+
+        try {
+            await Deno.stat(REPO_CONFIG_NAME);
+            console.error(colors.yellow(`${REPO_CONFIG_NAME} already exists`));
+            console.error("Delete it first if you want to regenerate.");
+            Deno.exit(1);
+        } catch {
+            // File doesn't exist, proceed
+        }
+
+        const content = [
+            `# yaml-language-server: $schema=${SCHEMA_PATH}`,
+            `# issuePattern: "(\\w+-\\d+)"`,
+            `# issuePrefix: ""`,
+            "",
+        ].join("\n");
+
+        await Deno.writeTextFile(REPO_CONFIG_NAME, content);
+        console.log(colors.green(`Created ${REPO_CONFIG_NAME}`));
+    });
