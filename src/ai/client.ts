@@ -1,13 +1,12 @@
 import { chat } from "@tanstack/ai";
-import { createAdapter, type ProviderName } from "../adapters.ts";
-import type { MergedConfig } from "../config/schema.ts";
+import { createAdapter, type ModelName, type ProviderName } from "../adapters.ts";
 
 export async function generate(
     prompt: string,
-    model: string,
-    config: MergedConfig,
+    model: ModelName,
+    provider: ProviderName,
 ): Promise<string> {
-    const adapter = createAdapter(config.provider as ProviderName, model);
+    const adapter = createAdapter(provider, model);
 
     const stream = chat({
         adapter,

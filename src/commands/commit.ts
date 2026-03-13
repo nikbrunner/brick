@@ -33,7 +33,7 @@ async function openLazygit(): Promise<void> {
 }
 
 async function generateCommitMessage(
-    model: string,
+    model: MergedConfig["model"],
     config: MergedConfig,
 ): Promise<string> {
     const [diff, branch, history] = await Promise.all([
@@ -58,7 +58,7 @@ async function generateCommitMessage(
     });
 
     console.error(`Generating with ${colors.cyan(model)}...`);
-    const message = await generate(prompt, model, config);
+    const message = await generate(prompt, model, config.provider);
     return message.replace(/^["']|["']$/g, "").replace(/\r/g, "");
 }
 

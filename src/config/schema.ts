@@ -1,13 +1,10 @@
 import { z } from "zod";
-import { PROVIDER_MODELS, type ProviderName } from "../adapters.ts";
-
-const providerNames = Object.keys(PROVIDER_MODELS) as [ProviderName, ...ProviderName[]];
-const allModels = Object.values(PROVIDER_MODELS).flat() as [string, ...string[]];
+import { ANTHROPIC_MODELS, PROVIDER_NAMES } from "../adapters.ts";
 
 export const GlobalConfigSchema = z.object({
-    provider: z.enum(providerNames).default("anthropic"),
-    model: z.enum(allModels).default("claude-haiku-4-5"),
-    models: z.array(z.enum(allModels)).default([
+    provider: z.enum(PROVIDER_NAMES).default("anthropic"),
+    model: z.enum(ANTHROPIC_MODELS).default("claude-haiku-4-5"),
+    models: z.array(z.enum(ANTHROPIC_MODELS)).default([
         "claude-opus-4-5",
         "claude-sonnet-4-5",
         "claude-haiku-4-5",

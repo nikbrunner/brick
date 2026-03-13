@@ -10,13 +10,13 @@ import { selectBranchAction, selectModel } from "../ui/prompts.ts";
 
 async function generateBranchName(
     description: string,
-    model: string,
+    model: MergedConfig["model"],
     config: MergedConfig,
 ): Promise<string> {
     const prompt = buildBranchPrompt({ description });
 
     console.error(`Generating with ${colors.cyan(model)}...`);
-    const name = await generate(prompt, model, config);
+    const name = await generate(prompt, model, config.provider);
     return name.replace(/^["']|["']$/g, "").replace(/[\n\r]/g, "");
 }
 
