@@ -5,17 +5,16 @@ import {
     MergedConfigSchema,
     RepoConfigSchema,
 } from "./schema.ts";
-
-const GLOBAL_CONFIG_PATH = `${Deno.env.get("HOME")}/.config/brick/config.yml`;
-const REPO_CONFIG_NAME = ".brick.yml";
+import { GLOBAL_CONFIG_PATH, REPO_CONFIG_NAME } from "./paths.ts";
 
 async function readYamlFile(path: string): Promise<Record<string, unknown> | null> {
     try {
         const content = await Deno.readTextFile(path);
         const parsed = parseYaml(content);
         return parsed as Record<string, unknown> ?? null;
-    } catch {
-        return null;
+    } catch (e) {
+        if (e instanceof Deno.errors.NotFound) return null;
+        throw e;
     }
 }
 

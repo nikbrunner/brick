@@ -8,13 +8,18 @@ user-invocable: false
 
 ## What It Is
 
-Brick is an AI-powered git CLI tool built with Deno 2.x and TypeScript. It generates commit messages and branch names via LLM providers (currently Anthropic).
+Brick is an AI-powered git CLI tool built with Deno 2.x and TypeScript. It generates commit messages
+and branch names via LLM providers (currently Anthropic).
 
 ## Origin
 
-Brick is a re-invention of the `repo` bash script from [nikbrunner/dots](https://github.com/nikbrunner/dots) at `common/.local/bin/repo`. The bash script provided AI-powered commit and branch operations using direct `curl` calls to the Anthropic API or Claude Code CLI. Brick replaces this with a typed, extensible Deno CLI.
+Brick is a re-invention of the `repo` bash script from
+[nikbrunner/dots](https://github.com/nikbrunner/dots) at `common/.local/bin/repo`. The bash script
+provided AI-powered commit and branch operations using direct `curl` calls to the Anthropic API or
+Claude Code CLI. Brick replaces this with a typed, extensible Deno CLI.
 
 Key differences from the original `repo` script:
+
 - Typed config with Zod validation instead of hardcoded bash variables
 - Provider abstraction via TanStack AI instead of raw curl/CLI calls
 - Proper CLI framework (Cliffy) instead of manual arg parsing
@@ -23,7 +28,8 @@ Key differences from the original `repo` script:
 
 ## Archived Code
 
-The `archive/v1-bash` branch contains the original bash implementation that was the first version of brick. This code is deprecated and preserved for reference only.
+The `archive/v1-bash` branch contains the original bash implementation that was the first version of
+brick. This code is deprecated and preserved for reference only.
 
 ## Architecture
 

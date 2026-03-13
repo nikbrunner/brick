@@ -1,4 +1,4 @@
-import { Confirm, Input, Select } from "@cliffy/prompt";
+import { Confirm, Select } from "@cliffy/prompt";
 
 export async function selectCommitAction(): Promise<"commit" | "regenerate" | "edit" | "cancel"> {
     return await Select.prompt({
@@ -28,10 +28,6 @@ export async function selectModel<T extends string>(models: T[]): Promise<T> {
         message: "Select model for regeneration:",
         options: models.map((m) => ({ name: m, value: m })),
     }) as T;
-}
-
-export async function confirmPush(): Promise<boolean> {
-    return await Confirm.prompt("Push to remote?");
 }
 
 export async function confirmForcePush(): Promise<boolean> {
@@ -65,8 +61,4 @@ export async function editMessage(message: string): Promise<string | null> {
     } catch {
         return null;
     }
-}
-
-export async function inputMessage(placeholder: string): Promise<string> {
-    return await Input.prompt({ message: placeholder });
 }

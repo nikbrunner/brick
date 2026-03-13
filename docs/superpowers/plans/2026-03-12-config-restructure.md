@@ -1,10 +1,16 @@
 # Config & Provider Restructure Implementation Plan
 
-> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents
+> available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`)
+> syntax for tracking.
 
-**Goal:** Remove the custom providers/ abstraction, flip config/defaults dependency so the zod schema is the single source of truth, correct chat() usage, and add config/init commands with JSON Schema generation for YAML editor autocomplete.
+**Goal:** Remove the custom providers/ abstraction, flip config/defaults dependency so the zod
+schema is the single source of truth, correct chat() usage, and add config/init commands with JSON
+Schema generation for YAML editor autocomplete.
 
-**Architecture:** Replace providers/ with a single adapters.ts that maps provider names to TanStack AI adapter factories. Config schema defines shape + defaults inline via zod. Commands write config/schema files to ~/.config/brick/.
+**Architecture:** Replace providers/ with a single adapters.ts that maps provider names to TanStack
+AI adapter factories. Config schema defines shape + defaults inline via zod. Commands write
+config/schema files to ~/.config/brick/.
 
 **Tech Stack:** Deno, @tanstack/ai, @tanstack/ai-anthropic, zod v4, @cliffy/command, @std/yaml
 
@@ -17,6 +23,7 @@
 ### Task 1: Create adapter map
 
 **Files:**
+
 - Create: `src/adapters.ts`
 
 - [ ] **Step 1: Create `src/adapters.ts`**
@@ -41,8 +48,7 @@ export function createAdapter(provider: ProviderName, model: string) {
 
 - [ ] **Step 2: Verify it type-checks**
 
-Run: `deno check src/adapters.ts`
-Expected: No errors
+Run: `deno check src/adapters.ts` Expected: No errors
 
 - [ ] **Step 3: Commit**
 
@@ -56,6 +62,7 @@ git commit -m "feat: add adapter map replacing providers/ abstraction"
 ### Task 2: Rewrite config schema with inline defaults
 
 **Files:**
+
 - Modify: `src/config/schema.ts`
 
 - [ ] **Step 1: Rewrite `src/config/schema.ts`**
@@ -95,8 +102,7 @@ export type MergedConfig = z.infer<typeof MergedConfigSchema>;
 
 - [ ] **Step 2: Verify it type-checks**
 
-Run: `deno check src/config/schema.ts`
-Expected: No errors
+Run: `deno check src/config/schema.ts` Expected: No errors
 
 - [ ] **Step 3: Commit**
 
@@ -110,6 +116,7 @@ git commit -m "refactor: rewrite config schema with inline defaults from adapter
 ### Task 3: Rewrite AI client with correct chat() usage
 
 **Files:**
+
 - Modify: `src/ai/client.ts`
 
 - [ ] **Step 1: Rewrite `src/ai/client.ts`**
@@ -146,8 +153,7 @@ export async function generate(
 
 - [ ] **Step 2: Verify it type-checks**
 
-Run: `deno check src/ai/client.ts`
-Expected: No errors
+Run: `deno check src/ai/client.ts` Expected: No errors
 
 - [ ] **Step 3: Commit**
 
@@ -161,10 +167,13 @@ git commit -m "fix: correct chat() usage with AG-UI streaming protocol"
 ### Task 4: Clean up ai/prompts.ts
 
 **Files:**
+
 - Modify: `src/ai/prompts.ts`
 - Modify: `src/commands/commit.ts`
 
-**Important context:** `branch` is used in `src/commands/commit.ts` for `extractIssueId()` — do NOT remove the `branch` variable from `generateCommitMessage`. Only remove it from `buildCommitPrompt` where it's destructured but never used.
+**Important context:** `branch` is used in `src/commands/commit.ts` for `extractIssueId()` — do NOT
+remove the `branch` variable from `generateCommitMessage`. Only remove it from `buildCommitPrompt`
+where it's destructured but never used.
 
 - [ ] **Step 1: Remove `branch` from `CommitPromptOptions` and `buildCommitPrompt`**
 
@@ -210,12 +219,12 @@ const prompt = buildCommitPrompt({
 });
 ```
 
-The `branch` variable is still fetched and used for `extractIssueId()` above — only the pass-through to `buildCommitPrompt` is removed.
+The `branch` variable is still fetched and used for `extractIssueId()` above — only the pass-through
+to `buildCommitPrompt` is removed.
 
 - [ ] **Step 3: Verify it type-checks**
 
-Run: `deno check src/ai/prompts.ts src/commands/commit.ts`
-Expected: No errors
+Run: `deno check src/ai/prompts.ts src/commands/commit.ts` Expected: No errors
 
 - [ ] **Step 4: Commit**
 
@@ -229,6 +238,7 @@ git commit -m "refactor: remove unused branch param from buildCommitPrompt"
 ### Task 5: Delete old provider files and defaults
 
 **Files:**
+
 - Delete: `src/providers/anthropic.ts`
 - Delete: `src/providers/index.ts`
 - Delete: `src/config/defaults.ts`
@@ -242,13 +252,12 @@ rmdir src/providers
 
 - [ ] **Step 2: Verify the full project type-checks**
 
-Run: `deno check src/main.ts`
-Expected: No errors. All imports now resolve to adapters.ts and the new schema.
+Run: `deno check src/main.ts` Expected: No errors. All imports now resolve to adapters.ts and the
+new schema.
 
 - [ ] **Step 3: Run lint**
 
-Run: `deno lint`
-Expected: No errors
+Run: `deno lint` Expected: No errors
 
 - [ ] **Step 4: Commit**
 
@@ -266,14 +275,15 @@ git commit -m "refactor: remove providers/ abstraction and defaults.ts"
 **Depends on:** Task 2 (schema.ts must be rewritten first)
 
 **Files:**
+
 - Create: `src/config/json-schema.ts`
 
 - [ ] **Step 1: Verify `z.toJSONSchema` is available**
 
-Run: `deno eval "import { z } from 'zod'; console.log(typeof z.toJSONSchema)"`
-Expected: `function`
+Run: `deno eval "import { z } from 'zod'; console.log(typeof z.toJSONSchema)"` Expected: `function`
 
-If this prints `undefined`, zod v4.3.6 doesn't have it — fall back to manually constructing the JSON Schema or update zod. Stop and flag to the user.
+If this prints `undefined`, zod v4.3.6 doesn't have it — fall back to manually constructing the JSON
+Schema or update zod. Stop and flag to the user.
 
 - [ ] **Step 2: Create `src/config/json-schema.ts`**
 
@@ -289,12 +299,12 @@ export function generateJsonSchema(): string {
 
 - [ ] **Step 3: Verify it type-checks**
 
-Run: `deno check src/config/json-schema.ts`
-Expected: No errors
+Run: `deno check src/config/json-schema.ts` Expected: No errors
 
 - [ ] **Step 4: Quick smoke test**
 
-Run: `deno eval "import { generateJsonSchema } from './src/config/json-schema.ts'; console.log(generateJsonSchema());"`
+Run:
+`deno eval "import { generateJsonSchema } from './src/config/json-schema.ts'; console.log(generateJsonSchema());"`
 Expected: Valid JSON Schema output with provider enum, model enum, default values
 
 - [ ] **Step 5: Commit**
@@ -309,6 +319,7 @@ git commit -m "feat: add JSON Schema generation from zod config schema"
 ### Task 7: Add `brick config` command
 
 **Files:**
+
 - Create: `src/commands/config.ts`
 
 - [ ] **Step 1: Create `src/commands/config.ts`**
@@ -380,8 +391,7 @@ export const configCommand = new Command()
 
 - [ ] **Step 2: Verify it type-checks**
 
-Run: `deno check src/commands/config.ts`
-Expected: No errors
+Run: `deno check src/commands/config.ts` Expected: No errors
 
 - [ ] **Step 3: Commit**
 
@@ -395,6 +405,7 @@ git commit -m "feat: add brick config command (--init, --schema, --show)"
 ### Task 8: Add `brick init` command
 
 **Files:**
+
 - Create: `src/commands/init.ts`
 
 - [ ] **Step 1: Create `src/commands/init.ts`**
@@ -438,8 +449,7 @@ export const initCommand = new Command()
 
 - [ ] **Step 2: Verify it type-checks**
 
-Run: `deno check src/commands/init.ts`
-Expected: No errors
+Run: `deno check src/commands/init.ts` Expected: No errors
 
 - [ ] **Step 3: Commit**
 
@@ -453,13 +463,15 @@ git commit -m "feat: add brick init command for repo-local config"
 ### Task 9: Update main.ts — register commands, fix git guard
 
 **Files:**
+
 - Modify: `src/main.ts`
 - Modify: `src/commands/commit.ts`
 - Modify: `src/commands/branch.ts`
 
 - [ ] **Step 1: Add git guard to commit and branch commands**
 
-In `src/commands/commit.ts`, add at the top of the `.action()` callback (before the `if (!options.smart)` check):
+In `src/commands/commit.ts`, add at the top of the `.action()` callback (before the
+`if (!options.smart)` check):
 
 ```typescript
 if (!await isGitRepo()) {
@@ -468,10 +480,12 @@ if (!await isGitRepo()) {
 }
 ```
 
-Add the import: `import { isGitRepo } from "../git/diff.ts";`
-(Note: `getStagedDiff`, `getCurrentBranch`, `getCommitHistory` are already imported from `"../git/diff.ts"`, so add `isGitRepo` to that import.)
+Add the import: `import { isGitRepo } from "../git/diff.ts";` (Note: `getStagedDiff`,
+`getCurrentBranch`, `getCommitHistory` are already imported from `"../git/diff.ts"`, so add
+`isGitRepo` to that import.)
 
-In `src/commands/branch.ts`, add the same guard at the top of the `.action()` callback (before the description check). Add `isGitRepo` import from `"../git/diff.ts"`.
+In `src/commands/branch.ts`, add the same guard at the top of the `.action()` callback (before the
+description check). Add `isGitRepo` import from `"../git/diff.ts"`.
 
 - [ ] **Step 2: Rewrite `src/main.ts`**
 
@@ -496,8 +510,7 @@ await main.parse(Deno.args);
 
 - [ ] **Step 3: Verify the full project type-checks**
 
-Run: `deno check src/main.ts`
-Expected: No errors
+Run: `deno check src/main.ts` Expected: No errors
 
 - [ ] **Step 4: Commit**
 
@@ -511,6 +524,7 @@ git commit -m "feat: register config/init commands, move git guard to individual
 ### Task 10: Update deno.json permissions
 
 **Files:**
+
 - Modify: `deno.json`
 
 - [ ] **Step 1: Add `--allow-write` to dev and compile tasks**
@@ -524,8 +538,7 @@ In `deno.json`, update the tasks:
 
 - [ ] **Step 2: Final full check**
 
-Run: `deno check src/main.ts && deno lint && deno fmt --check`
-Expected: All pass
+Run: `deno check src/main.ts && deno lint && deno fmt --check` Expected: All pass
 
 - [ ] **Step 3: Commit**
 
@@ -547,30 +560,28 @@ Expected: Creates config.yml and schema.json in ~/.config/brick/
 
 - [ ] **Step 2: Verify generated config**
 
-Run: `cat ~/.config/brick/config.yml`
-Expected: YAML with schema reference line, provider: anthropic, model: claude-haiku-4-5, models list, summaryLength: 72, historyCount: 10
+Run: `cat ~/.config/brick/config.yml` Expected: YAML with schema reference line, provider:
+anthropic, model: claude-haiku-4-5, models list, summaryLength: 72, historyCount: 10
 
 - [ ] **Step 3: Verify generated schema**
 
-Run: `cat ~/.config/brick/schema.json | python3 -m json.tool | head -30`
-Expected: Valid JSON Schema with provider enum containing "anthropic", model enum containing claude model names
+Run: `cat ~/.config/brick/schema.json | python3 -m json.tool | head -30` Expected: Valid JSON Schema
+with provider enum containing "anthropic", model enum containing claude model names
 
 - [ ] **Step 4: Test `brick config --show`**
 
-Run: `deno task dev config --show`
-Expected: Prints resolved config to stdout
+Run: `deno task dev config --show` Expected: Prints resolved config to stdout
 
 - [ ] **Step 5: Test `brick config --schema`**
 
-Run: `deno task dev config --schema`
-Expected: Regenerates schema.json, prints success message
+Run: `deno task dev config --schema` Expected: Regenerates schema.json, prints success message
 
 - [ ] **Step 6: Test `brick init`**
 
-Run in a git repo: `rm -f .brick.yml && deno task dev init`
-Expected: Creates .brick.yml with schema reference and commented-out issue fields
+Run in a git repo: `rm -f .brick.yml && deno task dev init` Expected: Creates .brick.yml with schema
+reference and commented-out issue fields
 
 - [ ] **Step 7: Test commit command still works**
 
-Run (with staged changes): `deno task dev commit --smart`
-Expected: Generates commit message using the adapter map and correct chat() streaming
+Run (with staged changes): `deno task dev commit --smart` Expected: Generates commit message using
+the adapter map and correct chat() streaming

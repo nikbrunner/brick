@@ -8,6 +8,7 @@
     "jsr:@cliffy/keycode@1.0.0": "1.0.0",
     "jsr:@cliffy/prompt@1": "1.0.0",
     "jsr:@cliffy/table@1.0.0": "1.0.0",
+    "jsr:@std/assert@*": "1.0.19",
     "jsr:@std/assert@^1.0.18": "1.0.19",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
     "jsr:@std/fmt@1.0.9": "1.0.9",
@@ -62,7 +63,7 @@
         "jsr:@cliffy/ansi",
         "jsr:@cliffy/internal",
         "jsr:@cliffy/keycode",
-        "jsr:@std/assert",
+        "jsr:@std/assert@^1.0.18",
         "jsr:@std/fmt@^1.0.9",
         "jsr:@std/io",
         "jsr:@std/path",
@@ -76,7 +77,10 @@
       ]
     },
     "@std/assert@1.0.19": {
-      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e"
+      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
     },
     "@std/encoding@1.0.10": {
       "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"

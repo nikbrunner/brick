@@ -2,12 +2,9 @@ import { Command } from "@cliffy/command";
 import { stringify as stringifyYaml } from "@std/yaml";
 import * as colors from "@std/fmt/colors";
 import { loadConfig } from "../config/loader.ts";
+import { CONFIG_DIR, GLOBAL_CONFIG_PATH, SCHEMA_PATH } from "../config/paths.ts";
 import { GlobalConfigSchema } from "../config/schema.ts";
 import { generateJsonSchema } from "../config/json-schema.ts";
-
-const CONFIG_DIR = `${Deno.env.get("HOME")}/.config/brick`;
-const CONFIG_PATH = `${CONFIG_DIR}/config.yml`;
-const SCHEMA_PATH = `${CONFIG_DIR}/schema.json`;
 
 async function writeSchema(): Promise<void> {
     await Deno.mkdir(CONFIG_DIR, { recursive: true });
@@ -18,8 +15,8 @@ async function writeSchema(): Promise<void> {
 
 async function initGlobalConfig(): Promise<void> {
     try {
-        await Deno.stat(CONFIG_PATH);
-        console.error(colors.yellow(`Config already exists at ${CONFIG_PATH}`));
+        await Deno.stat(GLOBAL_CONFIG_PATH);
+        console.error(colors.yellow(`Config already exists at ${GLOBAL_CONFIG_PATH}`));
         console.error("Delete it first if you want to regenerate.");
         Deno.exit(1);
     } catch (e) {
@@ -32,8 +29,8 @@ async function initGlobalConfig(): Promise<void> {
     const yamlContent = stringifyYaml(defaults as Record<string, unknown>);
     const schemaLine = `# yaml-language-server: $schema=${SCHEMA_PATH}\n`;
 
-    await Deno.writeTextFile(CONFIG_PATH, schemaLine + yamlContent);
-    console.log(colors.green(`Config written to ${CONFIG_PATH}`));
+    await Deno.writeTextFile(GLOBAL_CONFIG_PATH, schemaLine + yamlContent);
+    console.log(colors.green(`Config written to ${GLOBAL_CONFIG_PATH}`));
 
     await writeSchema();
 }

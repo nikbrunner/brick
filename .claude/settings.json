@@ -20,7 +20,19 @@
                 "hooks": [
                     {
                         "type": "command",
-                        "command": ".claude/hooks/post-write-checks.sh"
+                        "command": "deno fmt 2>/dev/null"
+                    },
+                    {
+                        "type": "command",
+                        "command": "deno lint 2>/dev/null"
+                    },
+                    {
+                        "type": "command",
+                        "command": "deno check . 2>/dev/null"
+                    },
+                    {
+                        "type": "command",
+                        "command": "deno task test 2>/dev/null"
                     }
                 ]
             }

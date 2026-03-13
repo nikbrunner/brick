@@ -5,7 +5,7 @@ import type { MergedConfig } from "../config/schema.ts";
 import { switchToNewBranch } from "../git/operations.ts";
 import { isGitRepo } from "../git/diff.ts";
 import { generate } from "../ai/client.ts";
-import { buildBranchPrompt } from "../ai/prompts.ts";
+import { buildBranchPrompt } from "../ai/branch-prompt.ts";
 import { selectBranchAction, selectModel } from "../ui/prompts.ts";
 
 async function generateBranchName(

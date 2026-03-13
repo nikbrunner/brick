@@ -6,7 +6,7 @@
     "tasks": {
         "dev": "deno run --allow-run --allow-read --allow-env --allow-net --allow-write src/main.ts",
         "compile": "deno compile --allow-run --allow-read --allow-env --allow-net --allow-write --output brick src/main.ts",
-        "test": "deno test --allow-read",
+        "test": "deno test --allow-read --allow-env",
         "check": "deno check .",
         "lint": "deno lint",
         "fmt": "deno fmt"

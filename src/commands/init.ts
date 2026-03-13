@@ -1,9 +1,7 @@
 import { Command } from "@cliffy/command";
 import * as colors from "@std/fmt/colors";
+import { REPO_CONFIG_NAME, SCHEMA_PATH } from "../config/paths.ts";
 import { isGitRepo } from "../git/diff.ts";
-
-const REPO_CONFIG_NAME = ".brick.yml";
-const SCHEMA_PATH = `${Deno.env.get("HOME")}/.config/brick/schema.json`;
 
 export const initCommand = new Command()
     .description("Create repo-local .brick.yml config")

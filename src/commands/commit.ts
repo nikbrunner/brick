@@ -5,7 +5,7 @@ import type { MergedConfig } from "../config/schema.ts";
 import { getCommitHistory, getCurrentBranch, getStagedDiff, isGitRepo } from "../git/diff.ts";
 import { commit, forcePush, push } from "../git/operations.ts";
 import { generate } from "../ai/client.ts";
-import { buildCommitPrompt } from "../ai/prompts.ts";
+import { buildCommitPrompt } from "../ai/commit-prompt.ts";
 import { confirmForcePush, editMessage, selectCommitAction, selectModel } from "../ui/prompts.ts";
 import { askUserToOpenLazygit, isLazygitInstalled, openLazygit } from "../ui/lazygit.ts";
 

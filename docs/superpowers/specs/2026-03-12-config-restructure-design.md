@@ -4,10 +4,17 @@
 
 The current architecture has inverted dependencies and unnecessary abstractions:
 
-1. **Config schema depends on provider files** — `schema.ts` imports `getAllModels()` and `PROVIDER_NAMES` from `providers/index.ts` to build the zod schema. The schema should define the shape; valid values should come from `@tanstack/ai-*` directly.
-2. **Defaults are untyped** — `defaults.ts` exports raw `as const` values. Defaults should satisfy the config type, not define it.
-3. **Custom provider abstraction is redundant** — `providers/` wraps `@tanstack/ai-anthropic` with a hand-rolled `Provider` interface, adding indirection without value. TanStack AI's adapter factories already provide full type safety.
-4. **`ai/client.ts` misuses `chat()`** — passes `stream: false` (not a valid option), casts the result as string. `chat()` returns an async iterable of AG-UI events that must be iterated to collect text.
+1. **Config schema depends on provider files** — `schema.ts` imports `getAllModels()` and
+   `PROVIDER_NAMES` from `providers/index.ts` to build the zod schema. The schema should define the
+   shape; valid values should come from `@tanstack/ai-*` directly.
+2. **Defaults are untyped** — `defaults.ts` exports raw `as const` values. Defaults should satisfy
+   the config type, not define it.
+3. **Custom provider abstraction is redundant** — `providers/` wraps `@tanstack/ai-anthropic` with a
+   hand-rolled `Provider` interface, adding indirection without value. TanStack AI's adapter
+   factories already provide full type safety.
+4. **`ai/client.ts` misuses `chat()`** — passes `stream: false` (not a valid option), casts the
+   result as string. `chat()` returns an async iterable of AG-UI events that must be iterated to
+   collect text.
 
 ## Goals
 
@@ -43,6 +50,7 @@ export function createAdapter(provider: ProviderName, model: string) {
 ```
 
 Adding a new provider (e.g. OpenAI):
+
 1. `deno add npm:@tanstack/ai-openai`
 2. Add `openai: OPENAI_MODELS` to `PROVIDER_MODELS`
 3. Add a case to `createAdapter`
@@ -86,11 +94,13 @@ export type MergedConfig = z.infer<typeof MergedConfigSchema>;
 
 ### 3. Defaults Removed
 
-Defaults are now inline in the zod schema via `.default()`. No separate `defaults.ts` file. The schema is the single source of truth for both shape and defaults.
+Defaults are now inline in the zod schema via `.default()`. No separate `defaults.ts` file. The
+schema is the single source of truth for both shape and defaults.
 
 ### 4. Config Loader — `src/config/loader.ts`
 
-Stays structurally the same. Reads YAML, validates with zod, merges global + repo config. Remove the `defaults.ts` import.
+Stays structurally the same. Reads YAML, validates with zod, merges global + repo config. Remove the
+`defaults.ts` import.
 
 ### 5. AI Client — `src/ai/client.ts`
 
@@ -124,7 +134,9 @@ export async function generate(
 }
 ```
 
-The manual retry logic is removed. Anthropic 529 (overloaded) errors will now propagate to the command layer. A retry wrapper can be added later if needed — but it should wrap `generate()` from the outside, not be interleaved with stream collection.
+The manual retry logic is removed. Anthropic 529 (overloaded) errors will now propagate to the
+command layer. A retry wrapper can be added later if needed — but it should wrap `generate()` from
+the outside, not be interleaved with stream collection.
 
 ### 6. Commands
 
@@ -132,16 +144,17 @@ The manual retry logic is removed. Anthropic 529 (overloaded) errors will now pr
 
 Creates `~/.config/brick/config.yml` with defaults and a YAML schema reference:
 
-The `$schema` path uses the resolved absolute path (not `~`), since most YAML language servers don't expand tilde:
+The `$schema` path uses the resolved absolute path (not `~`), since most YAML language servers don't
+expand tilde:
 
 ```yaml
 # yaml-language-server: $schema=/Users/<user>/.config/brick/schema.json
 provider: anthropic
 model: claude-haiku-4-5
 models:
-  - claude-opus-4-5
-  - claude-sonnet-4-5
-  - claude-haiku-4-5
+    - claude-opus-4-5
+    - claude-sonnet-4-5
+    - claude-haiku-4-5
 summaryLength: 72
 historyCount: 10
 ```
@@ -150,7 +163,8 @@ Also generates `~/.config/brick/schema.json` from the zod schema.
 
 #### `brick config --schema`
 
-Regenerates `~/.config/brick/schema.json` from the current zod schema. Useful after updating brick (new providers/models).
+Regenerates `~/.config/brick/schema.json` from the current zod schema. Useful after updating brick
+(new providers/models).
 
 #### `brick config --show`
 
@@ -184,7 +198,9 @@ The schema is written to `~/.config/brick/schema.json`.
 
 ### 8. `main.ts` — Git Guard Fix
 
-The current `globalAction` runs `isGitRepo()` before every subcommand. `brick config --init` and `brick config --schema` must work outside a git repo. Move the git check into the commands that need it (`commit`, `branch`, `init`) instead of running it globally.
+The current `globalAction` runs `isGitRepo()` before every subcommand. `brick config --init` and
+`brick config --schema` must work outside a git repo. Move the git check into the commands that need
+it (`commit`, `branch`, `init`) instead of running it globally.
 
 ### 9. Deno Permissions
 
@@ -200,27 +216,29 @@ The `dev` task needs the same addition.
 
 Secondary goal — clean up issues found during review:
 
-- **`ai/client.ts`**: Remove `stream: false` (invalid), remove manual retry loop, use proper AG-UI event iteration
-- **`commands/commit.ts`**: `generate()` signature simplifies — no longer needs full `MergedConfig`, just provider + model. But we keep passing config for now to avoid over-refactoring.
+- **`ai/client.ts`**: Remove `stream: false` (invalid), remove manual retry loop, use proper AG-UI
+  event iteration
+- **`commands/commit.ts`**: `generate()` signature simplifies — no longer needs full `MergedConfig`,
+  just provider + model. But we keep passing config for now to avoid over-refactoring.
 - **`ai/prompts.ts`**: `_branch` unused destructured variable — remove the destructuring alias
 
 ## File Changes Summary
 
-| Action | File | Notes |
-|-|-|-|
-| Delete | `src/providers/anthropic.ts` | Replaced by `src/adapters.ts` |
-| Delete | `src/providers/index.ts` | Replaced by `src/adapters.ts` |
-| Delete | `src/config/defaults.ts` | Defaults inline in schema |
-| Create | `src/adapters.ts` | Adapter map + factory |
-| Create | `src/config/json-schema.ts` | JSON Schema generation |
-| Create | `src/commands/config.ts` | `brick config` command |
-| Create | `src/commands/init.ts` | `brick init` command |
-| Modify | `src/config/schema.ts` | Use adapter map, inline defaults |
-| Modify | `src/config/loader.ts` | Remove defaults import |
-| Modify | `src/ai/client.ts` | Correct chat() usage |
-| Modify | `src/ai/prompts.ts` | Remove `_branch` alias |
-| Modify | `src/main.ts` | Register new commands |
-| Modify | `deno.json` | Add `--allow-write` to tasks |
+| Action | File                         | Notes                            |
+| ------ | ---------------------------- | -------------------------------- |
+| Delete | `src/providers/anthropic.ts` | Replaced by `src/adapters.ts`    |
+| Delete | `src/providers/index.ts`     | Replaced by `src/adapters.ts`    |
+| Delete | `src/config/defaults.ts`     | Defaults inline in schema        |
+| Create | `src/adapters.ts`            | Adapter map + factory            |
+| Create | `src/config/json-schema.ts`  | JSON Schema generation           |
+| Create | `src/commands/config.ts`     | `brick config` command           |
+| Create | `src/commands/init.ts`       | `brick init` command             |
+| Modify | `src/config/schema.ts`       | Use adapter map, inline defaults |
+| Modify | `src/config/loader.ts`       | Remove defaults import           |
+| Modify | `src/ai/client.ts`           | Correct chat() usage             |
+| Modify | `src/ai/prompts.ts`          | Remove `_branch` alias           |
+| Modify | `src/main.ts`                | Register new commands            |
+| Modify | `deno.json`                  | Add `--allow-write` to tasks     |
 
 ## Dependencies
 
