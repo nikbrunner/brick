@@ -7,7 +7,8 @@ import { commit, forcePush, push } from "../git/operations.ts";
 import { generate } from "../ai/client.ts";
 import { buildCommitPrompt } from "../ai/commit-prompt.ts";
 import { confirmForcePush, editMessage, selectCommitAction, selectModel } from "../ui/prompts.ts";
-import { askUserToOpenLazygit, isLazygitInstalled, openLazygit } from "../ui/lazygit.ts";
+import { askUserToOpenLazygit } from "../ui/lazygit.ts";
+import { runGuidedCommit } from "../ui/commit-builder.ts";
 
 function extractIssueId(branch: string, pattern?: string, prefix?: string): string | undefined {
     if (!pattern) return undefined;
@@ -20,23 +21,26 @@ function extractIssueId(branch: string, pattern?: string, prefix?: string): stri
     return match[0].toUpperCase();
 }
 
-async function ensureStagedChanges(): Promise<void> {
+async function ensureStagedChanges(useLazygit: boolean): Promise<void> {
     const diff = await getStagedDiff();
     if (diff) return;
 
     console.error(colors.yellow("No staged changes found."));
 
-    const opened = await askUserToOpenLazygit();
-    if (!opened) {
-        console.error("Please stage your changes first.");
-        Deno.exit(1);
+    if (useLazygit) {
+        const opened = await askUserToOpenLazygit();
+        if (opened) {
+            const diffAfterStaging = await getStagedDiff();
+            if (!diffAfterStaging) {
+                console.log("No changes staged. Aborting.");
+                Deno.exit(1);
+            }
+            return;
+        }
     }
 
-    const diffAfterStaging = await getStagedDiff();
-    if (!diffAfterStaging) {
-        console.log("No changes staged. Aborting.");
-        Deno.exit(1);
-    }
+    console.error("Please stage your changes first.");
+    Deno.exit(1);
 }
 
 async function generateCommitMessage(
@@ -116,19 +120,17 @@ export const commitCommand = new Command()
             Deno.exit(1);
         }
 
+        const config = await loadConfig();
+
         if (!options.smart) {
-            if (!await isLazygitInstalled()) {
-                console.error(colors.red("Error: lazygit is not installed"));
-                console.error("Install with: brew install lazygit");
-                Deno.exit(1);
-            }
-            await openLazygit();
+            await ensureStagedChanges(config.useLazygit);
+            await runGuidedCommit(config);
+            await handlePush(!!options.push, !!options.force);
             return;
         }
 
-        const config = await loadConfig();
         let currentModel = config.model;
-        await ensureStagedChanges();
+        await ensureStagedChanges(config.useLazygit);
         let commitMessage = await generateCommitMessage(currentModel, config);
         displayMessage(commitMessage, currentModel);
 
