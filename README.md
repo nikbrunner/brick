@@ -32,6 +32,24 @@ brick config --init
 brick init
 ```
 
+## LLM Support
+
+The `--smart` flag on `commit` and `branch` commands sends context to an LLM and returns a
+suggestion for you to review, edit, or regenerate before applying.
+
+Currently supported providers:
+
+| Provider    | Models                                                     |
+| ----------- | ---------------------------------------------------------- |
+| `anthropic` | `claude-opus-4-5`, `claude-sonnet-4-5`, `claude-haiku-4-5` |
+
+The default model is `claude-haiku-4-5` (fast and cheap). You can switch models interactively during
+a `--smart` session, or set a different default in your config.
+
+Requires the provider's API key as an environment variable:
+
+- Anthropic: `ANTHROPIC_API_KEY`
+
 ## Usage
 
 ### Commit
@@ -71,9 +89,6 @@ brick branch --smart --yes "add user dashboard"
 ```sh
 # Show resolved config (global + repo merged)
 brick config --show
-
-# Regenerate JSON Schema (for YAML editor autocomplete)
-brick config --schema
 ```
 
 ## Configuration
