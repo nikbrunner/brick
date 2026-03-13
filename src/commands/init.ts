@@ -22,6 +22,18 @@ export const initCommand = new Command()
 
         const content = [
             `# yaml-language-server: $schema=${REMOTE_SCHEMA_URL}`,
+            `# useLazygit: true`,
+            `# commitTypes:`,
+            `#   - feat`,
+            `#   - fix`,
+            `#   - docs`,
+            `#   - style`,
+            `#   - refactor`,
+            `#   - test`,
+            `#   - chore`,
+            `#   - ci`,
+            `#   - perf`,
+            `#   - revert`,
             `# issuePattern: "(\\w+-\\d+)"`,
             `# issuePrefix: ""`,
             "",

@@ -55,7 +55,7 @@ Requires the provider's API key as an environment variable:
 ### Commit
 
 ```sh
-# Open lazygit for manual commit
+# Guided conventional commit builder (interactive)
 brick commit
 
 # AI-generated commit message (interactive)
