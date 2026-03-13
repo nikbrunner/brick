@@ -26,6 +26,25 @@ export function buildCommitMessage(parts: CommitParts): string {
     return message;
 }
 
+const CUSTOM_OPTION = "✏ custom...";
+
+async function selectWithCustom(message: string, options: string[]): Promise<string> {
+    const selected = await Select.prompt({
+        message,
+        search: true,
+        options: [...options.map((o) => ({ name: o, value: o })), {
+            name: CUSTOM_OPTION,
+            value: CUSTOM_OPTION,
+        }],
+    }) as string;
+
+    if (selected === CUSTOM_OPTION) {
+        return await Input.prompt({ message: `${message} (custom)` });
+    }
+
+    return selected;
+}
+
 async function promptWithEditorEscape(message: string, initial = ""): Promise<string> {
     const value = await Input.prompt({
         message: `${message} (enter :e to open in $EDITOR)`,
@@ -54,16 +73,14 @@ export async function runGuidedCommit(config: MergedConfig): Promise<void> {
 
 async function _runGuidedCommit(config: MergedConfig): Promise<void> {
     // 1. Type
-    const type = await Select.prompt({
-        message: "Select commit type",
-        search: true,
-        options: config.commitTypes.map((t) => ({ name: t, value: t })),
-    }) as string;
+    const type = await selectWithCustom("Select commit type", config.commitTypes);
 
     // 2. Scope
-    const scope = await Input.prompt({
-        message: "Scope (optional, Enter to skip)",
-    });
+    const scopeRaw = await selectWithCustom("Select scope (Enter to skip)", [
+        "(none)",
+        ...config.scopes,
+    ]);
+    const scope = scopeRaw === "(none)" ? "" : scopeRaw;
 
     // 3. Breaking change
     const breaking = await Confirm.prompt({
