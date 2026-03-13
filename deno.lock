@@ -1,0 +1,177 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@cliffy/ansi@1.0.0": "1.0.0",
+    "jsr:@cliffy/command@1": "1.0.0",
+    "jsr:@cliffy/flags@1.0.0": "1.0.0",
+    "jsr:@cliffy/internal@1.0.0": "1.0.0",
+    "jsr:@cliffy/keycode@1.0.0": "1.0.0",
+    "jsr:@cliffy/prompt@1": "1.0.0",
+    "jsr:@cliffy/table@1.0.0": "1.0.0",
+    "jsr:@std/assert@^1.0.18": "1.0.19",
+    "jsr:@std/encoding@^1.0.10": "1.0.10",
+    "jsr:@std/fmt@1.0.9": "1.0.9",
+    "jsr:@std/fmt@^1.0.9": "1.0.9",
+    "jsr:@std/internal@^1.0.12": "1.0.12",
+    "jsr:@std/io@~0.225.3": "0.225.3",
+    "jsr:@std/path@^1.1.4": "1.1.4",
+    "jsr:@std/semver@^1.0.8": "1.0.8",
+    "jsr:@std/text@^1.0.17": "1.0.17",
+    "jsr:@std/yaml@^1.0.12": "1.0.12",
+    "npm:@tanstack/ai-anthropic@0.6": "0.6.0_@tanstack+ai@0.6.3_zod@4.3.6",
+    "npm:@tanstack/ai@~0.6.3": "0.6.3",
+    "npm:zod-to-json-schema@*": "3.25.1_zod@4.3.6",
+    "npm:zod@^4.3.6": "4.3.6"
+  },
+  "jsr": {
+    "@cliffy/ansi@1.0.0": {
+      "integrity": "987008f74e50aa72cc1517ffccc769711734a14927bc4599e052efe1b9a840e2",
+      "dependencies": [
+        "jsr:@cliffy/internal",
+        "jsr:@std/encoding",
+        "jsr:@std/io"
+      ]
+    },
+    "@cliffy/command@1.0.0": {
+      "integrity": "c52a241ea68857fcdaff4f3173eb404f8017d7bc35553b6f533c592b89dde7d2",
+      "dependencies": [
+        "jsr:@cliffy/flags",
+        "jsr:@cliffy/internal",
+        "jsr:@cliffy/table",
+        "jsr:@std/fmt@^1.0.9",
+        "jsr:@std/semver",
+        "jsr:@std/text"
+      ]
+    },
+    "@cliffy/flags@1.0.0": {
+      "integrity": "8b57698adc644da8f90422d58976362d41a4ebca39c312ca1c101585d0148feb",
+      "dependencies": [
+        "jsr:@cliffy/internal",
+        "jsr:@std/text"
+      ]
+    },
+    "@cliffy/internal@1.0.0": {
+      "integrity": "1e17ccbcd5420093c0a93e5b3827bbdc9abac5195bacf187edc44665e54bdde6"
+    },
+    "@cliffy/keycode@1.0.0": {
+      "integrity": "755dbf007be110dcb5625f87eb61b362b6a0ca6835453af03ebd3b34d399cf14"
+    },
+    "@cliffy/prompt@1.0.0": {
+      "integrity": "48b4cd35199fda7832f35e1fe0a3e8bc2b1ea49ba57b4ec0e29e22db44e8ca9f",
+      "dependencies": [
+        "jsr:@cliffy/ansi",
+        "jsr:@cliffy/internal",
+        "jsr:@cliffy/keycode",
+        "jsr:@std/assert",
+        "jsr:@std/fmt@^1.0.9",
+        "jsr:@std/io",
+        "jsr:@std/path",
+        "jsr:@std/text"
+      ]
+    },
+    "@cliffy/table@1.0.0": {
+      "integrity": "3fdaa9e1ef1ea62022108adabd826932bdea8dd05497079896febcd41322907f",
+      "dependencies": [
+        "jsr:@std/fmt@^1.0.9"
+      ]
+    },
+    "@std/assert@1.0.19": {
+      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e"
+    },
+    "@std/encoding@1.0.10": {
+      "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"
+    },
+    "@std/fmt@1.0.9": {
+      "integrity": "2487343e8899fb2be5d0e3d35013e54477ada198854e52dd05ed0422eddcabe0"
+    },
+    "@std/internal@1.0.12": {
+      "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
+    },
+    "@std/io@0.225.3": {
+      "integrity": "27b07b591384d12d7b568f39e61dff966b8230559122df1e9fd11cc068f7ddd1"
+    },
+    "@std/path@1.1.4": {
+      "integrity": "1d2d43f39efb1b42f0b1882a25486647cb851481862dc7313390b2bb044314b5",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/semver@1.0.8": {
+      "integrity": "dc830e8b8b6a380c895d53fbfd1258dc253704ca57bbe1629ac65fd7830179b7"
+    },
+    "@std/text@1.0.17": {
+      "integrity": "4b2c4ef67ae5b6c1dfd447c81c83a43718f52e3c7e748d8b33f694aba9895f95"
+    },
+    "@std/yaml@1.0.12": {
+      "integrity": "7deabca4545bcedd07c5f69ea53acea71b8b4c67562f224e17b90d75944cb20c"
+    }
+  },
+  "npm": {
+    "@anthropic-ai/sdk@0.71.2_zod@4.3.6": {
+      "integrity": "sha512-TGNDEUuEstk/DKu0/TflXAEt+p+p/WhTlFzEnoosvbaDU2LTjm42igSdlL0VijrKpWejtOKxX0b8A7uc+XiSAQ==",
+      "dependencies": [
+        "json-schema-to-ts",
+        "zod"
+      ],
+      "optionalPeers": [
+        "zod"
+      ],
+      "bin": true
+    },
+    "@babel/runtime@7.28.6": {
+      "integrity": "sha512-05WQkdpL9COIMz4LjTxGpPNCdlpyimKppYNoJ5Di5EUObifl8t4tuLuUBBZEpoLYOmfvIWrsp9fCl0HoPRVTdA=="
+    },
+    "@tanstack/ai-anthropic@0.6.0_@tanstack+ai@0.6.3_zod@4.3.6": {
+      "integrity": "sha512-xVKq6Co58etETfxrCfLzESyxrmR28D9+sh6FH/mPTeHWnOt3Tyb12OqOD5Gu2Ox4nZKWviHbmLKxavR4iFSYag==",
+      "dependencies": [
+        "@anthropic-ai/sdk",
+        "@tanstack/ai",
+        "zod"
+      ]
+    },
+    "@tanstack/ai@0.6.3": {
+      "integrity": "sha512-uCuP27PScfJXAKS/laqinlVSFSzPc2RMgXj0d7S7f6aqoIP/ack/0t5HjLdFgRMEOJ1wxbYmUV5Ln94wYg5t8Q==",
+      "dependencies": [
+        "@tanstack/devtools-event-client",
+        "partial-json"
+      ]
+    },
+    "@tanstack/devtools-event-client@0.4.3": {
+      "integrity": "sha512-OZI6QyULw0FI0wjgmeYzCIfbgPsOEzwJtCpa69XrfLMtNXLGnz3d/dIabk7frg0TmHo+Ah49w5I4KC7Tufwsvw==",
+      "bin": true
+    },
+    "json-schema-to-ts@3.1.1": {
+      "integrity": "sha512-+DWg8jCJG2TEnpy7kOm/7/AxaYoaRbjVB4LFZLySZlWn8exGs3A4OLJR966cVvU26N7X9TWxl+Jsw7dzAqKT6g==",
+      "dependencies": [
+        "@babel/runtime",
+        "ts-algebra"
+      ]
+    },
+    "partial-json@0.1.7": {
+      "integrity": "sha512-Njv/59hHaokb/hRUjce3Hdv12wd60MtM9Z5Olmn+nehe0QDAsRtRbJPvJ0Z91TusF0SuZRIvnM+S4l6EIP8leA=="
+    },
+    "ts-algebra@2.0.0": {
+      "integrity": "sha512-FPAhNPFMrkwz76P7cdjdmiShwMynZYN6SgOujD1urY4oNm80Ou9oMdmbR45LotcKOXoy7wSmHkRFE6Mxbrhefw=="
+    },
+    "zod-to-json-schema@3.25.1_zod@4.3.6": {
+      "integrity": "sha512-pM/SU9d3YAggzi6MtR4h7ruuQlqKtad8e9S0fmxcMi+ueAK5Korys/aWcV9LIIHTVbj01NdzxcnXSN+O74ZIVA==",
+      "dependencies": [
+        "zod"
+      ]
+    },
+    "zod@4.3.6": {
+      "integrity": "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@cliffy/command@1",
+      "jsr:@cliffy/prompt@1",
+      "jsr:@std/fmt@1.0.9",
+      "jsr:@std/yaml@^1.0.12",
+      "npm:@tanstack/ai-anthropic@0.6",
+      "npm:@tanstack/ai@~0.6.3",
+      "npm:zod@^4.3.6"
+    ]
+  }
+}
