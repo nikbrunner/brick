@@ -19,7 +19,25 @@ function extractIssueId(branch: string, pattern?: string, prefix?: string): stri
     return match[0].toUpperCase();
 }
 
+async function isLazygitInstalled(): Promise<boolean> {
+    try {
+        const cmd = new Deno.Command("which", {
+            args: ["lazygit"],
+            stdout: "null",
+            stderr: "null",
+        });
+        const { success } = await cmd.output();
+        return success;
+    } catch {
+        return false;
+    }
+}
+
 async function openLazygit(): Promise<void> {
+    if (!await isLazygitInstalled()) {
+        throw new Error("lazygit is not installed");
+    }
+
     const command = new Deno.Command("lazygit", {
         stdin: "inherit",
         stdout: "inherit",
@@ -32,6 +50,25 @@ async function openLazygit(): Promise<void> {
     }
 }
 
+async function ensureStagedChanges(): Promise<void> {
+    const diff = await getStagedDiff();
+    if (diff) return;
+
+    console.error(colors.yellow("No staged changes found."));
+    try {
+        await openLazygit();
+    } catch {
+        console.error("Please stage your changes first.");
+        Deno.exit(1);
+    }
+
+    const diffAfterStaging = await getStagedDiff();
+    if (!diffAfterStaging) {
+        console.log("No changes staged. Aborting.");
+        Deno.exit(1);
+    }
+}
+
 async function generateCommitMessage(
     model: MergedConfig["model"],
     config: MergedConfig,
@@ -41,12 +78,6 @@ async function generateCommitMessage(
         getCurrentBranch(),
         getCommitHistory(config.historyCount),
     ]);
-
-    if (!diff) {
-        console.error(colors.red("No staged changes found."));
-        console.error("Please stage your changes first.");
-        Deno.exit(1);
-    }
 
     const issueId = extractIssueId(branch, config.issuePattern, config.issuePrefix);
 
@@ -128,6 +159,7 @@ export const commitCommand = new Command()
 
         const config = await loadConfig();
         let currentModel = config.model;
+        await ensureStagedChanges();
         let commitMessage = await generateCommitMessage(currentModel, config);
         displayMessage(commitMessage, currentModel);
 
