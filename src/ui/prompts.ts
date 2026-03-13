@@ -34,9 +34,9 @@ export async function confirmForcePush(): Promise<boolean> {
     return await Confirm.prompt("Force push with --force-with-lease?");
 }
 
-export async function editMessage(message: string): Promise<string | null> {
+export async function openInEditor(content: string): Promise<string | null> {
     const tmpFile = await Deno.makeTempFile({ suffix: ".txt" });
-    await Deno.writeTextFile(tmpFile, message);
+    await Deno.writeTextFile(tmpFile, content);
 
     const editor = Deno.env.get("EDITOR") ?? "nvim";
     const command = new Deno.Command(editor, {
@@ -55,10 +55,13 @@ export async function editMessage(message: string): Promise<string | null> {
     }
 
     try {
-        const content = (await Deno.readTextFile(tmpFile)).trim();
+        const result = (await Deno.readTextFile(tmpFile)).trim();
+        return result || null;
+    } finally {
         await Deno.remove(tmpFile).catch(() => {});
-        return content || null;
-    } catch {
-        return null;
     }
+}
+
+export async function editMessage(message: string): Promise<string | null> {
+    return openInEditor(message);
 }
