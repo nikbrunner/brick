@@ -1,0 +1,29 @@
+{
+    "allowedTools": [
+        "Bash(deno check:*)",
+        "Bash(deno eval:*)",
+        "Bash(deno fmt:*)",
+        "Bash(deno lint:*)",
+        "Bash(deno task:*)",
+        "Bash(git *)",
+        "Bash(npx @anthropic-ai/claude-code-mcp@latest *)",
+        "Bash(tanstack *)",
+        "Bash(tanstack doc:*)",
+        "Bash(tanstack search-docs:*)",
+        "mcp__Ref__ref_read_url",
+        "mcp__Ref__ref_search_documentation"
+    ],
+    "hooks": {
+        "PostToolUse": [
+            {
+                "matcher": "Write|Edit|MultiEdit",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": ".claude/hooks/post-write-checks.sh"
+                    }
+                ]
+            }
+        ]
+    }
+}
