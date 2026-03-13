@@ -60,10 +60,12 @@ export async function runGuidedCommit(config: MergedConfig): Promise<void> {
     });
 
     // 4. Subject
-    const subject = await promptWithEditorEscape("Short description");
-    if (!subject.trim()) {
-        console.error(colors.red("Subject is required."));
-        Deno.exit(1);
+    let subject = "";
+    while (!subject.trim()) {
+        subject = await promptWithEditorEscape("Short description");
+        if (!subject.trim()) {
+            console.error(colors.red("Subject cannot be empty."));
+        }
     }
 
     // 5. Body
