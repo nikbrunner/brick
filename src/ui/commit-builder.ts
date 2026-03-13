@@ -44,6 +44,7 @@ export async function runGuidedCommit(config: MergedConfig): Promise<void> {
     // 1. Type
     const type = await Select.prompt({
         message: "Select commit type",
+        search: true,
         options: config.commitTypes.map((t) => ({ name: t, value: t })),
     }) as string;
 
