@@ -65,3 +65,20 @@ Deno.test("MergedConfigSchema - combines global and repo fields", () => {
     assertEquals(result.provider, "anthropic");
     assertEquals(result.issuePattern, "(\\w+-\\d+)");
 });
+
+Deno.test("RepoConfigSchema - useLazygit defaults to true", () => {
+    const result = RepoConfigSchema.parse({});
+    assertEquals(result.useLazygit, true);
+});
+
+Deno.test("RepoConfigSchema - commitTypes defaults to standard set", () => {
+    const result = RepoConfigSchema.parse({});
+    assertEquals(result.commitTypes.includes("feat"), true);
+    assertEquals(result.commitTypes.includes("fix"), true);
+    assertEquals(result.commitTypes.length, 10);
+});
+
+Deno.test("RepoConfigSchema - accepts custom commitTypes", () => {
+    const result = RepoConfigSchema.parse({ commitTypes: ["feat", "fix", "custom"] });
+    assertEquals(result.commitTypes, ["feat", "fix", "custom"]);
+});

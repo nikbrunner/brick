@@ -13,9 +13,24 @@ export const GlobalConfigSchema = z.object({
     historyCount: z.number().positive().default(10),
 });
 
+export const DEFAULT_COMMIT_TYPES = [
+    "feat",
+    "fix",
+    "docs",
+    "style",
+    "refactor",
+    "test",
+    "chore",
+    "ci",
+    "perf",
+    "revert",
+] as const;
+
 export const RepoConfigSchema = z.object({
     issuePattern: z.string().optional(),
     issuePrefix: z.string().optional(),
+    useLazygit: z.boolean().default(true),
+    commitTypes: z.array(z.string()).default([...DEFAULT_COMMIT_TYPES]),
 });
 
 export const MergedConfigSchema = z.object({
