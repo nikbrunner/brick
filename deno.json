@@ -8,7 +8,7 @@
         "install": "deno install --global -f --allow-run --allow-read --allow-env --allow-net --allow-write --name brick --config deno.json src/main.ts",
         "compile": "deno compile --allow-run --allow-read --allow-env --allow-net --allow-write --output brick src/main.ts",
         "schema": "deno run --allow-read --allow-env --allow-write scripts/generate-schema.ts",
-        "test": "deno test --allow-read --allow-env",
+        "test": "deno test --allow-read --allow-env --allow-write",
         "check": "deno check .",
         "lint": "deno lint",
         "fmt": "deno fmt"
