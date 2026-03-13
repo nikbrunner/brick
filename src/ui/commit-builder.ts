@@ -41,6 +41,18 @@ async function promptWithEditorEscape(message: string, initial = ""): Promise<st
 }
 
 export async function runGuidedCommit(config: MergedConfig): Promise<void> {
+    try {
+        await _runGuidedCommit(config);
+    } catch (e) {
+        if (e instanceof Error && e.message.includes("Interrupted")) {
+            console.log("\nCommit cancelled.");
+            Deno.exit(1);
+        }
+        throw e;
+    }
+}
+
+async function _runGuidedCommit(config: MergedConfig): Promise<void> {
     // 1. Type
     const type = await Select.prompt({
         message: "Select commit type",
