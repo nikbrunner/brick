@@ -9,6 +9,9 @@ const main = new Command()
     .name("brick")
     .version("0.1.0")
     .description("AI-powered git operations")
+    .action(function () {
+        this.showHelp();
+    })
     .command("commit", commitCommand)
     .command("branch", branchCommand)
     .command("config", configCommand)
