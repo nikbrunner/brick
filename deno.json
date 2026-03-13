@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
     "name": "@nikbrunner/brick",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "license": "MIT",
     "exports": "./src/main.ts",
     "tasks": {
@@ -31,7 +31,9 @@
     },
     "lint": {
         "rules": {
-            "exclude": ["no-slow-types"]
+            "exclude": [
+                "no-slow-types"
+            ]
         }
     }
 }
