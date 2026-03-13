@@ -1,6 +1,6 @@
-# Brick
+# brick 🧱
 
-AI-powered git CLI — generates commit messages and branch names via LLM.
+If you want to build a proper house, you need good bricks.
 
 ## Install
 
