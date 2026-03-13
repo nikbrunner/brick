@@ -111,12 +111,25 @@ historyCount: 10
 
 ```yaml
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nikbrunner/brick/main/schema.json
+useLazygit: true
+commitTypes:
+    - feat
+    - fix
+    - docs
+    - style
+    - refactor
+    - test
+    - chore
+    - ci
+    - perf
+    - revert
 issuePattern: "(\w+-\d+)"
 issuePrefix: ""
 ```
 
 When `issuePattern` matches the current branch name, the extracted issue ID is prepended to commit
-messages automatically.
+messages automatically. `commitTypes` can be customised per repo. Set `useLazygit: false` to disable
+the lazygit staging prompt.
 
 ## Development
 
