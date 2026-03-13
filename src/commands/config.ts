@@ -22,8 +22,8 @@ async function initGlobalConfig(): Promise<void> {
         console.error(colors.yellow(`Config already exists at ${CONFIG_PATH}`));
         console.error("Delete it first if you want to regenerate.");
         Deno.exit(1);
-    } catch {
-        // File doesn't exist, proceed
+    } catch (e) {
+        if (!(e instanceof Deno.errors.NotFound)) throw e;
     }
 
     await Deno.mkdir(CONFIG_DIR, { recursive: true });

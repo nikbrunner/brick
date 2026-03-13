@@ -11,5 +11,9 @@ export function createAdapter(provider: ProviderName, model: string) {
     switch (provider) {
         case "anthropic":
             return anthropicText(model as AnthropicChatModel);
+        default: {
+            const _exhaustive: never = provider;
+            throw new Error(`Unknown provider: ${_exhaustive}`);
+        }
     }
 }

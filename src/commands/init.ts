@@ -18,8 +18,8 @@ export const initCommand = new Command()
             console.error(colors.yellow(`${REPO_CONFIG_NAME} already exists`));
             console.error("Delete it first if you want to regenerate.");
             Deno.exit(1);
-        } catch {
-            // File doesn't exist, proceed
+        } catch (e) {
+            if (!(e instanceof Deno.errors.NotFound)) throw e;
         }
 
         const content = [
