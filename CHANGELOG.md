@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/nikbrunner/brick/compare/v0.2.0...v0.3.0) (2026-03-13)
+
+
+### Features
+
+* **ui:** add configurable scope selector with custom override ([09af263](https://github.com/nikbrunner/brick/commit/09af263df8ad4a011ffae638341cca18954277af))
+
 ## [0.2.0](https://github.com/nikbrunner/brick/compare/v0.1.0...v0.2.0) (2026-03-13)
 
 
