@@ -1,5 +1,5 @@
 import { assertEquals } from "jsr:@std/assert";
-import { CONFIG_DIR, GLOBAL_CONFIG_PATH, REPO_CONFIG_NAME, SCHEMA_PATH } from "./paths.ts";
+import { CONFIG_DIR, GLOBAL_CONFIG_PATH, REMOTE_SCHEMA_URL, REPO_CONFIG_NAME } from "./paths.ts";
 
 Deno.test("CONFIG_DIR points to ~/.config/brick", () => {
     const home = Deno.env.get("HOME");
@@ -10,8 +10,11 @@ Deno.test("GLOBAL_CONFIG_PATH is config.yml inside CONFIG_DIR", () => {
     assertEquals(GLOBAL_CONFIG_PATH, `${CONFIG_DIR}/config.yml`);
 });
 
-Deno.test("SCHEMA_PATH is schema.json inside CONFIG_DIR", () => {
-    assertEquals(SCHEMA_PATH, `${CONFIG_DIR}/schema.json`);
+Deno.test("REMOTE_SCHEMA_URL points to GitHub raw", () => {
+    assertEquals(
+        REMOTE_SCHEMA_URL,
+        "https://raw.githubusercontent.com/nikbrunner/brick/main/schema.json",
+    );
 });
 
 Deno.test("REPO_CONFIG_NAME is .brick.yml", () => {

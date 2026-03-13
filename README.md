@@ -81,7 +81,7 @@ brick config --schema
 ### Global (`~/.config/brick/config.yml`)
 
 ```yaml
-# yaml-language-server: $schema=/Users/you/.config/brick/schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nikbrunner/brick/main/schema.json
 provider: anthropic
 model: claude-haiku-4-5
 models:
@@ -95,7 +95,7 @@ historyCount: 10
 ### Repo-local (`.brick.yml`)
 
 ```yaml
-# yaml-language-server: $schema=/Users/you/.config/brick/schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nikbrunner/brick/main/schema.json
 issuePattern: "(\w+-\d+)"
 issuePrefix: ""
 ```

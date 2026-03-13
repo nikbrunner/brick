@@ -1,6 +1,6 @@
 import { Command } from "@cliffy/command";
 import * as colors from "@std/fmt/colors";
-import { REPO_CONFIG_NAME, SCHEMA_PATH } from "../config/paths.ts";
+import { REMOTE_SCHEMA_URL, REPO_CONFIG_NAME } from "../config/paths.ts";
 import { isGitRepo } from "../git/diff.ts";
 
 export const initCommand = new Command()
@@ -21,7 +21,7 @@ export const initCommand = new Command()
         }
 
         const content = [
-            `# yaml-language-server: $schema=${SCHEMA_PATH}`,
+            `# yaml-language-server: $schema=${REMOTE_SCHEMA_URL}`,
             `# issuePattern: "(\\w+-\\d+)"`,
             `# issuePrefix: ""`,
             "",

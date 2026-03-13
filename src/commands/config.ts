@@ -2,16 +2,8 @@ import { Command } from "@cliffy/command";
 import { stringify as stringifyYaml } from "@std/yaml";
 import * as colors from "@std/fmt/colors";
 import { loadConfig } from "../config/loader.ts";
-import { CONFIG_DIR, GLOBAL_CONFIG_PATH, SCHEMA_PATH } from "../config/paths.ts";
+import { CONFIG_DIR, GLOBAL_CONFIG_PATH, REMOTE_SCHEMA_URL } from "../config/paths.ts";
 import { GlobalConfigSchema } from "../config/schema.ts";
-import { generateJsonSchema } from "../config/json-schema.ts";
-
-async function writeSchema(): Promise<void> {
-    await Deno.mkdir(CONFIG_DIR, { recursive: true });
-    const schema = generateJsonSchema();
-    await Deno.writeTextFile(SCHEMA_PATH, schema);
-    console.log(colors.green(`Schema written to ${SCHEMA_PATH}`));
-}
 
 async function initGlobalConfig(): Promise<void> {
     try {
@@ -27,12 +19,10 @@ async function initGlobalConfig(): Promise<void> {
 
     const defaults = GlobalConfigSchema.parse({});
     const yamlContent = stringifyYaml(defaults as Record<string, unknown>);
-    const schemaLine = `# yaml-language-server: $schema=${SCHEMA_PATH}\n`;
+    const schemaLine = `# yaml-language-server: $schema=${REMOTE_SCHEMA_URL}\n`;
 
     await Deno.writeTextFile(GLOBAL_CONFIG_PATH, schemaLine + yamlContent);
     console.log(colors.green(`Config written to ${GLOBAL_CONFIG_PATH}`));
-
-    await writeSchema();
 }
 
 async function showConfig(): Promise<void> {
@@ -43,17 +33,14 @@ async function showConfig(): Promise<void> {
 export const configCommand = new Command()
     .description("Manage global configuration")
     .option("--init", "Create default global config")
-    .option("--schema", "Regenerate JSON Schema file")
     .option("--show", "Show resolved config")
     .action(async (options) => {
         if (options.init) {
             await initGlobalConfig();
-        } else if (options.schema) {
-            await writeSchema();
         } else if (options.show) {
             await showConfig();
         } else {
-            console.error("Use --init, --schema, or --show. See --help for details.");
+            console.error("Use --init or --show. See --help for details.");
             Deno.exit(1);
         }
     });
