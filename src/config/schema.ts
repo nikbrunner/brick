@@ -21,7 +21,10 @@ export const RepoConfigSchema = z.object({
     issuePrefix: z.string().optional(),
 });
 
-export const MergedConfigSchema = GlobalConfigSchema.merge(RepoConfigSchema);
+export const MergedConfigSchema = z.object({
+    ...GlobalConfigSchema.shape,
+    ...RepoConfigSchema.shape,
+});
 
 export type GlobalConfig = z.infer<typeof GlobalConfigSchema>;
 export type RepoConfig = z.infer<typeof RepoConfigSchema>;
