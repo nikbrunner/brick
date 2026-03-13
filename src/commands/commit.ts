@@ -7,6 +7,7 @@ import { commit, forcePush, push } from "../git/operations.ts";
 import { generate } from "../ai/client.ts";
 import { buildCommitPrompt } from "../ai/prompts.ts";
 import { confirmForcePush, editMessage, selectCommitAction, selectModel } from "../ui/prompts.ts";
+import { askUserToOpenLazygit, isLazygitInstalled, openLazygit } from "../ui/lazygit.ts";
 
 function extractIssueId(branch: string, pattern?: string, prefix?: string): string | undefined {
     if (!pattern) return undefined;
@@ -19,45 +20,14 @@ function extractIssueId(branch: string, pattern?: string, prefix?: string): stri
     return match[0].toUpperCase();
 }
 
-async function isLazygitInstalled(): Promise<boolean> {
-    try {
-        const cmd = new Deno.Command("which", {
-            args: ["lazygit"],
-            stdout: "null",
-            stderr: "null",
-        });
-        const { success } = await cmd.output();
-        return success;
-    } catch {
-        return false;
-    }
-}
-
-async function openLazygit(): Promise<void> {
-    if (!await isLazygitInstalled()) {
-        throw new Error("lazygit is not installed");
-    }
-
-    const command = new Deno.Command("lazygit", {
-        stdin: "inherit",
-        stdout: "inherit",
-        stderr: "inherit",
-    });
-    const process = command.spawn();
-    const status = await process.status;
-    if (!status.success) {
-        throw new Error("lazygit exited with an error");
-    }
-}
-
 async function ensureStagedChanges(): Promise<void> {
     const diff = await getStagedDiff();
     if (diff) return;
 
     console.error(colors.yellow("No staged changes found."));
-    try {
-        await openLazygit();
-    } catch {
+
+    const opened = await askUserToOpenLazygit();
+    if (!opened) {
         console.error("Please stage your changes first.");
         Deno.exit(1);
     }
@@ -147,13 +117,12 @@ export const commitCommand = new Command()
         }
 
         if (!options.smart) {
-            try {
-                await openLazygit();
-            } catch {
+            if (!await isLazygitInstalled()) {
                 console.error(colors.red("Error: lazygit is not installed"));
                 console.error("Install with: brew install lazygit");
                 Deno.exit(1);
             }
+            await openLazygit();
             return;
         }
 
