@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/nikbrunner/brick/compare/v0.2.0...v0.3.0) (2026-03-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **config:** migrate from YAML to TOML with snake_case keys
+
+### Features
+
+* **config:** migrate from YAML to TOML with snake_case keys ([7a41ced](https://github.com/nikbrunner/brick/commit/7a41ced8fb2f097e7eaaef428112c595fd37065e))
+* **ui:** add configurable scope selector with custom override ([09af263](https://github.com/nikbrunner/brick/commit/09af263df8ad4a011ffae638341cca18954277af))
+
 ## [0.2.0](https://github.com/nikbrunner/brick/compare/v0.1.0...v0.2.0) (2026-03-13)
 
 
