@@ -6,8 +6,8 @@ Deno.test("CONFIG_DIR points to ~/.config/brick", () => {
     assertEquals(CONFIG_DIR, `${home}/.config/brick`);
 });
 
-Deno.test("GLOBAL_CONFIG_PATH is config.yml inside CONFIG_DIR", () => {
-    assertEquals(GLOBAL_CONFIG_PATH, `${CONFIG_DIR}/config.yml`);
+Deno.test("GLOBAL_CONFIG_PATH is config.toml inside CONFIG_DIR", () => {
+    assertEquals(GLOBAL_CONFIG_PATH, `${CONFIG_DIR}/config.toml`);
 });
 
 Deno.test("REMOTE_SCHEMA_URL points to GitHub raw", () => {
@@ -17,6 +17,6 @@ Deno.test("REMOTE_SCHEMA_URL points to GitHub raw", () => {
     );
 });
 
-Deno.test("REPO_CONFIG_NAME is .brick.yml", () => {
-    assertEquals(REPO_CONFIG_NAME, ".brick.yml");
+Deno.test("REPO_CONFIG_NAME is .brick.toml", () => {
+    assertEquals(REPO_CONFIG_NAME, ".brick.toml");
 });

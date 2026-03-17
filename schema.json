@@ -48,27 +48,27 @@
                 ]
             }
         },
-        "summaryLength": {
+        "summary_length": {
             "default": 72,
             "type": "number",
             "exclusiveMinimum": 0
         },
-        "historyCount": {
+        "history_count": {
             "default": 10,
             "type": "number",
             "exclusiveMinimum": 0
         },
-        "issuePattern": {
+        "issue_pattern": {
             "type": "string"
         },
-        "issuePrefix": {
+        "issue_prefix": {
             "type": "string"
         },
-        "useLazygit": {
+        "use_lazygit": {
             "default": true,
             "type": "boolean"
         },
-        "commitTypes": {
+        "commit_types": {
             "default": [
                 "feat",
                 "fix",

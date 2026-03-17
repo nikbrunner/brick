@@ -16,7 +16,7 @@ src/
   commands/     → CLI command definitions (Cliffy)
   ai/           → LLM client + prompt templates
   providers/    → Provider adapters (currently: Anthropic via TanStack AI)
-  config/       → YAML config loading + Zod schema validation
+  config/       → TOML config loading + Zod schema validation
   git/          → Git operations (diff, exec, operations)
   ui/           → Interactive prompts (Cliffy)
 ```
@@ -24,8 +24,8 @@ src/
 ## Key Design Decisions
 
 - **TanStack AI** as the abstraction layer over providers — not raw SDK calls
-- **Zod v4** for config schema validation (global `~/.config/brick/config.yml` + per-repo
-  `.brick.yml`)
+- **Zod v4** for config schema validation (global `~/.config/brick/config.toml` + per-repo
+  `.brick.toml`)
 - **Provider pattern** — designed for multi-provider support, currently Anthropic-only
 - Config merges: global defaults → global config → repo config
 

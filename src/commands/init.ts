@@ -1,10 +1,10 @@
 import { Command } from "@cliffy/command";
 import * as colors from "@std/fmt/colors";
-import { REMOTE_SCHEMA_URL, REPO_CONFIG_NAME } from "../config/paths.ts";
+import { REPO_CONFIG_NAME } from "../config/paths.ts";
 import { isGitRepo } from "../git/diff.ts";
 
 export const initCommand = new Command()
-    .description("Create repo-local .brick.yml config")
+    .description("Create repo-local .brick.toml config")
     .action(async () => {
         if (!await isGitRepo()) {
             console.error(colors.red("Error: Not in a git repository"));
@@ -21,21 +21,10 @@ export const initCommand = new Command()
         }
 
         const content = [
-            `# yaml-language-server: $schema=${REMOTE_SCHEMA_URL}`,
-            `# useLazygit: true`,
-            `# commitTypes:`,
-            `#   - feat`,
-            `#   - fix`,
-            `#   - docs`,
-            `#   - style`,
-            `#   - refactor`,
-            `#   - test`,
-            `#   - chore`,
-            `#   - ci`,
-            `#   - perf`,
-            `#   - revert`,
-            `# issuePattern: "(\\w+-\\d+)"`,
-            `# issuePrefix: ""`,
+            `# use_lazygit = true`,
+            `# commit_types = ["feat", "fix", "docs", "style", "refactor", "test", "chore", "ci", "perf", "revert"]`,
+            `# issue_pattern = "(\\\\w+-\\\\d+)"`,
+            `# issue_prefix = ""`,
             "",
         ].join("\n");
 

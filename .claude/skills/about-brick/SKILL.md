@@ -23,7 +23,7 @@ Key differences from the original `repo` script:
 - Typed config with Zod validation instead of hardcoded bash variables
 - Provider abstraction via TanStack AI instead of raw curl/CLI calls
 - Proper CLI framework (Cliffy) instead of manual arg parsing
-- YAML config files (global + per-repo) instead of in-script constants
+- TOML config files (global + per-repo) instead of in-script constants
 - Extensible provider pattern (designed for multi-provider support)
 
 ## Archived Code
@@ -39,14 +39,14 @@ src/
   commands/          → commit.ts, branch.ts — CLI command definitions
   ai/                → client.ts (LLM interaction), prompts.ts (prompt templates)
   providers/         → index.ts (registry), anthropic.ts (TanStack AI adapter)
-  config/            → schema.ts (Zod), loader.ts (YAML), defaults.ts
+  config/            → schema.ts (Zod), loader.ts (TOML)
   git/               → diff.ts, exec.ts, operations.ts
   ui/                → prompts.ts (interactive user prompts via Cliffy)
 ```
 
 ## Config
 
-- Global: `~/.config/brick/config.yml`
-- Per-repo: `.brick.yml` in repo root
+- Global: `~/.config/brick/config.toml`
+- Per-repo: `.brick.toml` in repo root
 - Schema: `src/config/schema.ts` — validates with Zod v4
 - Merge order: defaults → global → repo

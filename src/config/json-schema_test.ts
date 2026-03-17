@@ -27,6 +27,6 @@ Deno.test("generateJsonSchema - includes defaults", () => {
     const schema = JSON.parse(generateJsonSchema());
     assertEquals(schema.properties.provider.default, "anthropic");
     assertEquals(schema.properties.model.default, "claude-haiku-4-5");
-    assertEquals(schema.properties.summaryLength.default, 72);
-    assertEquals(schema.properties.historyCount.default, 10);
+    assertEquals(schema.properties.summary_length.default, 72);
+    assertEquals(schema.properties.history_count.default, 10);
 });

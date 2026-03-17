@@ -1,6 +1,16 @@
 import { assertEquals } from "jsr:@std/assert";
-import { stringify as stringifyYaml } from "@std/yaml";
+import { stringify as stringifyToml } from "@std/toml";
 import { loadConfig } from "./loader.ts";
+
+/** Convert camelCase to snake_case for writing TOML test files */
+function camelToSnake(obj: Record<string, unknown>): Record<string, unknown> {
+    const result: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(obj)) {
+        const snakeKey = key.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`);
+        result[snakeKey] = value;
+    }
+    return result;
+}
 
 async function withTempFiles(
     files: Record<string, unknown>,
@@ -11,7 +21,10 @@ async function withTempFiles(
     Deno.chdir(dir);
 
     for (const [name, content] of Object.entries(files)) {
-        await Deno.writeTextFile(name, stringifyYaml(content as Record<string, unknown>));
+        await Deno.writeTextFile(
+            name,
+            stringifyToml(camelToSnake(content as Record<string, unknown>)),
+        );
     }
 
     try {
@@ -42,7 +55,7 @@ Deno.test("loadConfig - returns defaults when no config files exist", async () =
 
 Deno.test("loadConfig - repo config merges over global config", async () => {
     await withTempFiles(
-        { ".brick.yml": { issuePattern: "(PROJ-\\d+)", issuePrefix: "" } },
+        { ".brick.toml": { issuePattern: "(PROJ-\\d+)", issuePrefix: "" } },
         async () => {
             const config = await loadConfig();
             assertEquals(config.issuePattern, "(PROJ-\\d+)");
@@ -53,7 +66,7 @@ Deno.test("loadConfig - repo config merges over global config", async () => {
 
 Deno.test("loadConfig - repo config without global config uses defaults", async () => {
     await withTempFiles(
-        { ".brick.yml": { issuePattern: "(DEV-\\d+)" } },
+        { ".brick.toml": { issuePattern: "(DEV-\\d+)" } },
         async () => {
             const config = await loadConfig();
             assertEquals(config.issuePattern, "(DEV-\\d+)");

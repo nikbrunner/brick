@@ -25,10 +25,10 @@ cp brick ~/.local/bin/  # or anywhere on PATH
 ## Setup
 
 ```sh
-# Create global config at ~/.config/brick/config.yml
+# Create global config at ~/.config/brick/config.toml
 brick config --init
 
-# Create repo-local config (.brick.yml) for issue tracking
+# Create repo-local config (.brick.toml) for issue tracking
 brick init
 ```
 
@@ -93,43 +93,28 @@ brick config --show
 
 ## Configuration
 
-### Global (`~/.config/brick/config.yml`)
+### Global (`~/.config/brick/config.toml`)
 
-```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nikbrunner/brick/main/schema.json
-provider: anthropic
-model: claude-haiku-4-5
-models:
-    - claude-opus-4-5
-    - claude-sonnet-4-5
-    - claude-haiku-4-5
-summaryLength: 72
-historyCount: 10
+```toml
+provider = "anthropic"
+model = "claude-haiku-4-5"
+models = ["claude-opus-4-5", "claude-sonnet-4-5", "claude-haiku-4-5"]
+summary_length = 72
+history_count = 10
 ```
 
-### Repo-local (`.brick.yml`)
+### Repo-local (`.brick.toml`)
 
-```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/nikbrunner/brick/main/schema.json
-useLazygit: true
-commitTypes:
-    - feat
-    - fix
-    - docs
-    - style
-    - refactor
-    - test
-    - chore
-    - ci
-    - perf
-    - revert
-issuePattern: "(\w+-\d+)"
-issuePrefix: ""
+```toml
+use_lazygit = true
+commit_types = ["feat", "fix", "docs", "style", "refactor", "test", "chore", "ci", "perf", "revert"]
+issue_pattern = "(\\w+-\\d+)"
+issue_prefix = ""
 ```
 
-When `issuePattern` matches the current branch name, the extracted issue ID is prepended to commit
-messages automatically. `commitTypes` can be customised per repo. Set `useLazygit: false` to disable
-the lazygit staging prompt.
+When `issue_pattern` matches the current branch name, the extracted issue ID is prepended to commit
+messages automatically. `commit_types` can be customised per repo. Set `use_lazygit = false` to
+disable the lazygit staging prompt.
 
 ## Development
 
