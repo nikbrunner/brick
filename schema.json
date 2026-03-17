@@ -1,117 +1,117 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "type": "object",
-  "properties": {
-    "provider": {
-      "default": "anthropic",
-      "type": "string",
-      "enum": [
-        "anthropic"
-      ]
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+        "provider": {
+            "default": "anthropic",
+            "type": "string",
+            "enum": [
+                "anthropic"
+            ]
+        },
+        "model": {
+            "default": "claude-haiku-4-5",
+            "type": "string",
+            "enum": [
+                "claude-opus-4-6",
+                "claude-opus-4-5",
+                "claude-sonnet-4-5",
+                "claude-haiku-4-5",
+                "claude-opus-4-1",
+                "claude-sonnet-4",
+                "claude-3-7-sonnet",
+                "claude-opus-4",
+                "claude-3-5-haiku",
+                "claude-3-haiku"
+            ]
+        },
+        "models": {
+            "default": [
+                "claude-opus-4-5",
+                "claude-sonnet-4-5",
+                "claude-haiku-4-5"
+            ],
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "claude-opus-4-6",
+                    "claude-opus-4-5",
+                    "claude-sonnet-4-5",
+                    "claude-haiku-4-5",
+                    "claude-opus-4-1",
+                    "claude-sonnet-4",
+                    "claude-3-7-sonnet",
+                    "claude-opus-4",
+                    "claude-3-5-haiku",
+                    "claude-3-haiku"
+                ]
+            }
+        },
+        "summaryLength": {
+            "default": 72,
+            "type": "number",
+            "exclusiveMinimum": 0
+        },
+        "historyCount": {
+            "default": 10,
+            "type": "number",
+            "exclusiveMinimum": 0
+        },
+        "issuePattern": {
+            "type": "string"
+        },
+        "issuePrefix": {
+            "type": "string"
+        },
+        "useLazygit": {
+            "default": true,
+            "type": "boolean"
+        },
+        "commitTypes": {
+            "default": [
+                "feat",
+                "fix",
+                "docs",
+                "style",
+                "refactor",
+                "test",
+                "chore",
+                "ci",
+                "perf",
+                "revert"
+            ],
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "scopes": {
+            "default": [
+                "ui",
+                "api",
+                "config",
+                "auth",
+                "ci",
+                "build",
+                "docs",
+                "test"
+            ],
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
     },
-    "model": {
-      "default": "claude-haiku-4-5",
-      "type": "string",
-      "enum": [
-        "claude-opus-4-6",
-        "claude-opus-4-5",
-        "claude-sonnet-4-5",
-        "claude-haiku-4-5",
-        "claude-opus-4-1",
-        "claude-sonnet-4",
-        "claude-3-7-sonnet",
-        "claude-opus-4",
-        "claude-3-5-haiku",
-        "claude-3-haiku"
-      ]
-    },
-    "models": {
-      "default": [
-        "claude-opus-4-5",
-        "claude-sonnet-4-5",
-        "claude-haiku-4-5"
-      ],
-      "type": "array",
-      "items": {
-        "type": "string",
-        "enum": [
-          "claude-opus-4-6",
-          "claude-opus-4-5",
-          "claude-sonnet-4-5",
-          "claude-haiku-4-5",
-          "claude-opus-4-1",
-          "claude-sonnet-4",
-          "claude-3-7-sonnet",
-          "claude-opus-4",
-          "claude-3-5-haiku",
-          "claude-3-haiku"
-        ]
-      }
-    },
-    "summaryLength": {
-      "default": 72,
-      "type": "number",
-      "exclusiveMinimum": 0
-    },
-    "historyCount": {
-      "default": 10,
-      "type": "number",
-      "exclusiveMinimum": 0
-    },
-    "issuePattern": {
-      "type": "string"
-    },
-    "issuePrefix": {
-      "type": "string"
-    },
-    "useLazygit": {
-      "default": true,
-      "type": "boolean"
-    },
-    "commitTypes": {
-      "default": [
-        "feat",
-        "fix",
-        "docs",
-        "style",
-        "refactor",
-        "test",
-        "chore",
-        "ci",
-        "perf",
-        "revert"
-      ],
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "scopes": {
-      "default": [
-        "ui",
-        "api",
-        "config",
-        "auth",
-        "ci",
-        "build",
-        "docs",
-        "test"
-      ],
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    }
-  },
-  "required": [
-    "provider",
-    "model",
-    "models",
-    "summaryLength",
-    "historyCount",
-    "useLazygit",
-    "commitTypes",
-    "scopes"
-  ],
-  "additionalProperties": false
+    "required": [
+        "provider",
+        "model",
+        "models",
+        "summaryLength",
+        "historyCount",
+        "useLazygit",
+        "commitTypes",
+        "scopes"
+    ],
+    "additionalProperties": false
 }
