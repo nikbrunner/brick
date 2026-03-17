@@ -27,7 +27,10 @@
         "lineWidth": 100,
         "indentWidth": 4,
         "semiColons": true,
-        "singleQuote": false
+        "singleQuote": false,
+        "exclude": [
+            "CHANGELOG.md"
+        ]
     },
     "lint": {
         "rules": {
