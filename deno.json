@@ -1,12 +1,12 @@
 {
     "$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
-    "name": "@nikbrunner/brick",
+    "name": "@black-atom-industries/shiplog",
     "version": "0.2.0",
     "license": "MIT",
     "exports": "./src/main.ts",
     "tasks": {
-        "install": "deno install --global -f --allow-run --allow-read --allow-env --allow-net --allow-write --name brick --config deno.json src/main.ts",
-        "compile": "deno compile --allow-run --allow-read --allow-env --allow-net --allow-write --output brick src/main.ts",
+        "install": "deno install --global -f --allow-run --allow-read --allow-env --allow-net --allow-write --name shiplog --config deno.json src/main.ts",
+        "compile": "deno compile --allow-run --allow-read --allow-env --allow-net --allow-write --output shiplog src/main.ts",
         "schema": "deno run --allow-read --allow-env --allow-write scripts/generate-schema.ts",
         "test": "deno test --allow-read --allow-env --allow-write",
         "check": "deno check .",
