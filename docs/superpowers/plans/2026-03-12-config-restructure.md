@@ -10,7 +10,7 @@ Schema generation for YAML editor autocomplete.
 
 **Architecture:** Replace providers/ with a single adapters.ts that maps provider names to TanStack
 AI adapter factories. Config schema defines shape + defaults inline via zod. Commands write
-config/schema files to ~/.config/brick/.
+config/schema files to ~/.config/black-atom/shiplog/.
 
 **Tech Stack:** Deno, @tanstack/ai, @tanstack/ai-anthropic, zod v4, @cliffy/command, @std/yaml
 
@@ -415,11 +415,11 @@ import { Command } from "@cliffy/command";
 import * as colors from "@std/fmt/colors";
 import { isGitRepo } from "../git/diff.ts";
 
-const REPO_CONFIG_NAME = ".brick.yml";
+const REPO_CONFIG_NAME = ".shiplog.toml";
 const SCHEMA_PATH = `${Deno.env.get("HOME")}/.config/brick/schema.json`;
 
 export const initCommand = new Command()
-    .description("Create repo-local .brick.yml config")
+    .description("Create repo-local .shiplog.toml config")
     .action(async () => {
         if (!await isGitRepo()) {
             console.error(colors.red("Error: Not in a git repository"));
@@ -555,17 +555,17 @@ git commit -m "chore: add --allow-write permission to dev and compile tasks"
 
 - [ ] **Step 1: Test `brick config --init`**
 
-Run: `rm -f ~/.config/brick/config.yml ~/.config/brick/schema.json && deno task dev config --init`
-Expected: Creates config.yml and schema.json in ~/.config/brick/
+Run: `rm -f ~/.config/black-atom/shiplog/config.yml ~/.config/black-atom/shiplog/schema.json && deno task dev config --init`
+Expected: Creates config.yml and schema.json in ~/.config/black-atom/shiplog/
 
 - [ ] **Step 2: Verify generated config**
 
-Run: `cat ~/.config/brick/config.yml` Expected: YAML with schema reference line, provider:
+Run: `cat ~/.config/black-atom/shiplog/config.yml` Expected: YAML with schema reference line, provider:
 anthropic, model: claude-haiku-4-5, models list, summaryLength: 72, historyCount: 10
 
 - [ ] **Step 3: Verify generated schema**
 
-Run: `cat ~/.config/brick/schema.json | python3 -m json.tool | head -30` Expected: Valid JSON Schema
+Run: `cat ~/.config/black-atom/shiplog/schema.json | python3 -m json.tool | head -30` Expected: Valid JSON Schema
 with provider enum containing "anthropic", model enum containing claude model names
 
 - [ ] **Step 4: Test `brick config --show`**
@@ -578,7 +578,7 @@ Run: `deno task dev config --schema` Expected: Regenerates schema.json, prints s
 
 - [ ] **Step 6: Test `brick init`**
 
-Run in a git repo: `rm -f .brick.yml && deno task dev init` Expected: Creates .brick.yml with schema
+Run in a git repo: `rm -f .shiplog.toml && deno task dev init` Expected: Creates .shiplog.toml with schema
 reference and commented-out issue fields
 
 - [ ] **Step 7: Test commit command still works**

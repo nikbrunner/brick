@@ -1,35 +1,35 @@
-# brick 🧱
+# shiplog
 
-If you want to build a proper house, you need good bricks.
+AI-powered git CLI — generates commit messages and branch names via LLM.
 
 ## Install
 
 Requires [Deno 2.x](https://deno.com/) and an `ANTHROPIC_API_KEY` environment variable.
 
 ```sh
-git clone https://github.com/nikbrunner/brick.git
-cd brick
+git clone https://github.com/black-atom-industries/shiplog.git
+cd shiplog
 deno task install
 ```
 
-This installs `brick` globally via `deno install`. Changes to source take effect immediately — no
+This installs `shiplog` globally via `deno install`. Changes to source take effect immediately — no
 rebuild needed.
 
 For a standalone binary instead:
 
 ```sh
 deno task compile
-cp brick ~/.local/bin/  # or anywhere on PATH
+cp shiplog ~/.local/bin/  # or anywhere on PATH
 ```
 
 ## Setup
 
 ```sh
-# Create global config at ~/.config/brick/config.toml
-brick config --init
+# Create global config at ~/.config/black-atom/shiplog/config.toml
+shiplog config --init
 
-# Create repo-local config (.brick.toml) for issue tracking
-brick init
+# Create repo-local config (.shiplog.toml) for issue tracking
+shiplog init
 ```
 
 ## LLM Support
@@ -56,44 +56,44 @@ Requires the provider's API key as an environment variable:
 
 ```sh
 # Guided conventional commit builder (interactive)
-brick commit
+shiplog commit
 
 # AI-generated commit message (interactive)
-brick commit --smart
+shiplog commit --smart
 
 # Auto-confirm the generated message
-brick commit --smart --yes
+shiplog commit --smart --yes
 
 # Commit and push
-brick commit --smart --yes --push
+shiplog commit --smart --yes --push
 
 # Force push (--force-with-lease)
-brick commit --smart --yes --push --force
+shiplog commit --smart --yes --push --force
 ```
 
 ### Branch
 
 ```sh
 # Create branch directly
-brick branch my-feature
+shiplog branch my-feature
 
 # AI-generated branch name from description
-brick branch --smart "fix the login validation bug"
+shiplog branch --smart "fix the login validation bug"
 
 # Auto-confirm
-brick branch --smart --yes "add user dashboard"
+shiplog branch --smart --yes "add user dashboard"
 ```
 
 ### Config
 
 ```sh
 # Show resolved config (global + repo merged)
-brick config --show
+shiplog config --show
 ```
 
 ## Configuration
 
-### Global (`~/.config/brick/config.toml`)
+### Global (`~/.config/black-atom/shiplog/config.toml`)
 
 ```toml
 provider = "anthropic"
@@ -103,7 +103,7 @@ summary_length = 72
 history_count = 10
 ```
 
-### Repo-local (`.brick.toml`)
+### Repo-local (`.shiplog.toml`)
 
 ```toml
 use_lazygit = true

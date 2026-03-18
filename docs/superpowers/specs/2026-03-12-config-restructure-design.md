@@ -142,7 +142,7 @@ the outside, not be interleaved with stream collection.
 
 #### `brick config --init`
 
-Creates `~/.config/brick/config.yml` with defaults and a YAML schema reference:
+Creates `~/.config/black-atom/shiplog/config.yml` with defaults and a YAML schema reference:
 
 The `$schema` path uses the resolved absolute path (not `~`), since most YAML language servers don't
 expand tilde:
@@ -159,11 +159,11 @@ summaryLength: 72
 historyCount: 10
 ```
 
-Also generates `~/.config/brick/schema.json` from the zod schema.
+Also generates `~/.config/black-atom/shiplog/schema.json` from the zod schema.
 
 #### `brick config --schema`
 
-Regenerates `~/.config/brick/schema.json` from the current zod schema. Useful after updating brick
+Regenerates `~/.config/black-atom/shiplog/schema.json` from the current zod schema. Useful after updating brick
 (new providers/models).
 
 #### `brick config --show`
@@ -172,7 +172,7 @@ Prints the resolved config (global + repo merged) to stdout.
 
 #### `brick init`
 
-Creates `.brick.yml` in the current repo with repo-specific fields:
+Creates `.shiplog.toml` in the current repo with repo-specific fields:
 
 ```yaml
 # yaml-language-server: $schema=/Users/<user>/.config/brick/schema.json
@@ -194,7 +194,7 @@ export function generateJsonSchema(): string {
 }
 ```
 
-The schema is written to `~/.config/brick/schema.json`.
+The schema is written to `~/.config/black-atom/shiplog/schema.json`.
 
 ### 8. `main.ts` — Git Guard Fix
 

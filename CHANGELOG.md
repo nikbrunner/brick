@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.2.0](https://github.com/nikbrunner/brick/compare/v0.1.0...v0.2.0) (2026-03-13)
+## [0.2.0](https://github.com/black-atom-industries/shiplog/compare/v0.1.0...v0.2.0) (2026-03-13)
 
 
 ### Features

@@ -1,10 +1,10 @@
-# Brick
+# Shiplog
 
 AI-powered git CLI tool — generates commit messages and branch names via LLM providers.
 
 ## What This Is
 
-Brick is a Deno 2.x TypeScript CLI that wraps git operations (commit, branch) with AI-generated
+Shiplog is a Deno 2.x TypeScript CLI that wraps git operations (commit, branch) with AI-generated
 suggestions. It's a re-invention of the `repo` bash script from
 [dots](https://github.com/nikbrunner/dots) (`common/.local/bin/repo`), rebuilt as a proper CLI with
 typed config, provider abstraction, and extensibility.
@@ -24,8 +24,8 @@ src/
 ## Key Design Decisions
 
 - **TanStack AI** as the abstraction layer over providers — not raw SDK calls
-- **Zod v4** for config schema validation (global `~/.config/brick/config.toml` + per-repo
-  `.brick.toml`)
+- **Zod v4** for config schema validation (global `~/.config/black-atom/shiplog/config.toml` +
+  per-repo `.shiplog.toml`)
 - **Provider pattern** — designed for multi-provider support, currently Anthropic-only
 - Config merges: global defaults → global config → repo config
 

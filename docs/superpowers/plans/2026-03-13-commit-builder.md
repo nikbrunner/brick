@@ -566,12 +566,12 @@ git commit -m "feat(commit): wire guided builder as default commit flow"
 
 ## Chunk 6: Update docs and schema
 
-### Task 6: Update README and `.brick.yml` template
+### Task 6: Update README and `.shiplog.toml` template
 
 **Files:**
 
 - Modify: `README.md`
-- Modify: `src/commands/init.ts` — add `useLazygit` and `commitTypes` to generated `.brick.yml`
+- Modify: `src/commands/init.ts` — add `useLazygit` and `commitTypes` to generated `.shiplog.toml`
 
 - [ ] **Step 1: Update `init.ts` template**
 
