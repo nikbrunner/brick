@@ -5,12 +5,7 @@ import {
     MergedConfigSchema,
     RepoConfigSchema,
 } from "./schema.ts";
-import {
-    GLOBAL_CONFIG_PATH,
-    LEGACY_GLOBAL_CONFIG_PATH,
-    LEGACY_REPO_CONFIG_NAME,
-    REPO_CONFIG_NAME,
-} from "./paths.ts";
+import { GLOBAL_CONFIG_PATH, REPO_CONFIG_NAME } from "./paths.ts";
 
 /** Convert snake_case keys to camelCase (single level, no recursion needed for flat config) */
 function snakeToCamel(obj: Record<string, unknown>): Record<string, unknown> {
@@ -33,24 +28,7 @@ async function readTomlFile(path: string): Promise<Record<string, unknown> | nul
     }
 }
 
-async function checkLegacyConfig(legacyPath: string, newPath: string): Promise<void> {
-    try {
-        await Deno.stat(legacyPath);
-        console.warn(
-            `⚠ Legacy config found: ${legacyPath}\n` +
-                `  Brick now uses TOML. Rename it to ${newPath} and convert to TOML format.\n` +
-                `  See: https://github.com/nikbrunner/brick#configuration`,
-        );
-    } catch {
-        // No legacy file — nothing to warn about
-    }
-}
-
 export async function loadConfig(): Promise<MergedConfig> {
-    // Warn about legacy YAML configs
-    await checkLegacyConfig(LEGACY_GLOBAL_CONFIG_PATH, GLOBAL_CONFIG_PATH);
-    await checkLegacyConfig(LEGACY_REPO_CONFIG_NAME, REPO_CONFIG_NAME);
-
     const globalRaw = await readTomlFile(GLOBAL_CONFIG_PATH);
     const globalConfig = GlobalConfigSchema.parse(globalRaw ?? {});
 

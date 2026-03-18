@@ -6,7 +6,7 @@ import { configCommand } from "./commands/config.ts";
 import { initCommand } from "./commands/init.ts";
 
 const main = new Command()
-    .name("brick")
+    .name("shiplog")
     .version("0.1.0")
     .description("AI-powered git operations")
     .action(function () {

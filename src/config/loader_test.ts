@@ -55,7 +55,7 @@ Deno.test("loadConfig - returns defaults when no config files exist", async () =
 
 Deno.test("loadConfig - repo config merges over global config", async () => {
     await withTempFiles(
-        { ".brick.toml": { issuePattern: "(PROJ-\\d+)", issuePrefix: "" } },
+        { ".shiplog.toml": { issuePattern: "(PROJ-\\d+)", issuePrefix: "" } },
         async () => {
             const config = await loadConfig();
             assertEquals(config.issuePattern, "(PROJ-\\d+)");
@@ -66,7 +66,7 @@ Deno.test("loadConfig - repo config merges over global config", async () => {
 
 Deno.test("loadConfig - repo config without global config uses defaults", async () => {
     await withTempFiles(
-        { ".brick.toml": { issuePattern: "(DEV-\\d+)" } },
+        { ".shiplog.toml": { issuePattern: "(DEV-\\d+)" } },
         async () => {
             const config = await loadConfig();
             assertEquals(config.issuePattern, "(DEV-\\d+)");

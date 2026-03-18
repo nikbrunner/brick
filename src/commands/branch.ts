@@ -44,7 +44,7 @@ export const branchCommand = new Command()
 
         if (!description) {
             console.error(colors.red("Error: No branch name or description provided"));
-            console.error("Use 'brick branch --help' for usage information");
+            console.error("Use 'shiplog branch --help' for usage information");
             Deno.exit(1);
         }
 

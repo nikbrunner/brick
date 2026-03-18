@@ -4,7 +4,7 @@ import { REPO_CONFIG_NAME } from "../config/paths.ts";
 import { isGitRepo } from "../git/diff.ts";
 
 export const initCommand = new Command()
-    .description("Create repo-local .brick.toml config")
+    .description("Create repo-local .shiplog.toml config")
     .action(async () => {
         if (!await isGitRepo()) {
             console.error(colors.red("Error: Not in a git repository"));
