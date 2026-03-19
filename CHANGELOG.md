@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.3.0](https://github.com/black-atom-industries/shiplog/compare/v0.2.0...v0.3.0) (2026-03-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* update all documentation for shiplog rename
+* update project config for shiplog rename
+* rename brick to shiplog in source and tests
+* **config:** migrate from YAML to TOML with snake_case keys
+
+### build
+
+* update project config for shiplog rename ([cc08a2d](https://github.com/black-atom-industries/shiplog/commit/cc08a2db5f23577d8f8d392bf45ded72439452ce))
+
+
+### Features
+
+* **config:** migrate from YAML to TOML with snake_case keys ([7a41ced](https://github.com/black-atom-industries/shiplog/commit/7a41ced8fb2f097e7eaaef428112c595fd37065e))
+* **ui:** add configurable scope selector with custom override ([09af263](https://github.com/black-atom-industries/shiplog/commit/09af263df8ad4a011ffae638341cca18954277af))
+
+
+### Documentation
+
+* update all documentation for shiplog rename ([0cf4417](https://github.com/black-atom-industries/shiplog/commit/0cf441735b07e26e9bbb7937e5b644cc3c8097d7))
+
+
+### Refactors
+
+* rename brick to shiplog in source and tests ([964b4e8](https://github.com/black-atom-industries/shiplog/commit/964b4e818a33496fa0d96e7f5bb670633b074ded))
+
 ## [0.2.0](https://github.com/black-atom-industries/shiplog/compare/v0.1.0...v0.2.0) (2026-03-13)
 
 
