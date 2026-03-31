@@ -69,6 +69,12 @@ shiplog commit --smart --yes --push
 
 # Force push (--force-with-lease)
 shiplog commit --smart --yes --push --force
+
+# Raw output — just print the message, no commit (requires -sy)
+shiplog commit -syr
+
+# Use with git directly (e.g. from Neovim :! or scripts)
+git commit -m "$(shiplog commit -syr)"
 ```
 
 ### Branch
@@ -82,6 +88,9 @@ shiplog branch --smart "fix the login validation bug"
 
 # Auto-confirm
 shiplog branch --smart --yes "add user dashboard"
+
+# Raw output — just print the name, no branch creation (requires -sy)
+git checkout -b "$(shiplog branch -syr "add user dashboard")"
 ```
 
 ### Config
