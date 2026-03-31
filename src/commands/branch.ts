@@ -34,6 +34,7 @@ export const branchCommand = new Command()
     .arguments("[description...:string]")
     .option("-s, --smart", "Use AI to generate branch name")
     .option("-y, --yes", "Auto-create branch (with -s only)")
+    .option("-r, --raw", "Print raw name to stdout (implies -s, no branch creation)")
     .action(async (options, ...descriptionParts) => {
         if (!await isGitRepo()) {
             console.error(colors.red("Error: Not in a git repository"));
@@ -48,6 +49,17 @@ export const branchCommand = new Command()
             Deno.exit(1);
         }
 
+        if (options.raw) {
+            if (!description) {
+                console.error(colors.red("Error: No description provided"));
+                Deno.exit(1);
+            }
+            const config = await loadConfig();
+            const name = await generateBranchName(description, config.model, config);
+            console.log(name);
+            return;
+        }
+
         if (!options.smart) {
             console.log(`Creating branch: ${colors.cyan(description)}`);
             await switchToNewBranch(description);
@@ -59,7 +71,13 @@ export const branchCommand = new Command()
 
         const config = await loadConfig();
         let currentModel = config.model;
-        let branchName = await generateBranchName(description, currentModel, config);
+        let branchName: string;
+        try {
+            branchName = await generateBranchName(description, currentModel, config);
+        } catch (error) {
+            console.error(colors.red(`Failed to generate branch name: ${error}`));
+            Deno.exit(1);
+        }
         displayBranchName(branchName, currentModel);
 
         if (options.yes) {
